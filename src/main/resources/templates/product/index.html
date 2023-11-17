@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<<<<<<< Updated upstream
+  <meta charset="UTF-8">
+  <title>$Title$</title>
+</head>
+<body>
+$END$
+=======
+    <title>Product</title>
+    <th:block th:replace="/layout/head::admin"></th:block>
+</head>
+<body>
+<div class="container-xxl position-relative bg-white d-flex p-0">
+    <div class="sidebar pe-4 pb-3">
+        <nav class="navbar bg-light navbar-light">
+            <a href="/admin" class="navbar-brand mx-4 mb-3">
+                <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>Admin</h3>
+            </a>
+            <div class="d-flex align-items-center ms-4 mb-4">
+                <div class="position-relative">
+                    <a href="/admin"></a>
+                    <img class="rounded-circle" src="/img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                    <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
+                </div>
+                <div class="ms-3">
+                    <h6 class="mb-0">${user.name}</h6>
+                    <span>${user.role.name}</span>
+                </div>
+            </div>
+            <div class="navbar-nav w-100">
+                <a href="/user?action=profile&id=${user.id}" class="nav-item nav-link"><i
+                        class="fa fa-tachometer-alt me-2"></i>Profile</a>
+
+                <a href="/product" class="nav-item nav-link active"><i class="fa fa-th me-2 "></i>Product</a>
+                <a href="/product-import" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Product
+                    Import</a>
+                <a href="/user" class="nav-item nav-link"><i class="fa fa-table me-2"></i>User</a>
+                <a href="/express" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Express</a>
+                <a href="/order" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Order</a>
+
+            </div>
+        </nav>
+    </div>
+
+    <div class="content" style="width: 100%; margin-left: 0px">
+        <th:block th:replace="/layout/navBarAdmin"></th:block>
+
+        <div class="container">
+            <div class="card container px-6" style="height: 100vh">
+                <h3 class="text-center">Management Product</h3>
+                <!--                <c:if test="${message != null}">-->
+                <!--                    <h6 class="d-none" id="message">${message}</h6>-->
+                <!--                </c:if>-->
+
+                <div style="display: flex; align-items: center;">
+                    <div style="margin-right: auto;">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#modalCreate">
+                            <i class="far fa-plus-square"></i>
+                            Create Product
+                        </button>
+                    </div>
+                    <form action="/product?page=${page.currentPage}"
+                          style="display: flex; align-items: center; margin-right: 10px;">
+                        <div>
+                            <input type="text" id="search" value="${search}" name="search" class="form-control"
+                                   style="width: 85%" placeholder="Search Product">
+                        </div>
+                        <div style="margin-left: 10px;">
+                            <button id="searchButton" class="btn btn-primary">Search</button>
+                        </div>
+                    </form>
+                </div>
+
+                <table class="table table-striped tbProduct">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th>Price</th>
+<!--                        <th>IMG</th>-->
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal Create-->
+<th:block th:replace="/product/modalCreate"></th:block>
+>>>>>>> Stashed changes
+</body>
+</html>
