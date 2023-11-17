@@ -1,6 +1,4 @@
-<<<<<<< Updated upstream
-package com.cg.repository;public interface CategoryRepository {
-=======
+
 package com.cg.repository;
 
 import com.cg.model.Category;
@@ -20,5 +18,5 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
             "FROM Category as c"
     )
     List<CategoryResDTO> findAllCategoriesResDTO();
->>>>>>> Stashed changes
+
 }

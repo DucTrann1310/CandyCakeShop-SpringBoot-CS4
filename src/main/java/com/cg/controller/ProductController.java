@@ -1,6 +1,4 @@
-<<<<<<< Updated upstream
-package com.cg.controller;public class ProductController {
-=======
+
 package com.cg.controller;
 
 
@@ -26,5 +24,4 @@ public class ProductController {
         return "product/index";
     }
 
->>>>>>> Stashed changes
 }

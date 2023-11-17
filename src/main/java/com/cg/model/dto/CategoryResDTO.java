@@ -1,8 +1,4 @@
-<<<<<<< Updated upstream
-package com.cg.model.DTO;
 
-public class CategoryDTO {
-=======
 package com.cg.model.dto;
 
 
@@ -18,7 +14,7 @@ import lombok.experimental.Accessors;
 @Setter
 @Accessors(chain = true)
 public class CategoryResDTO {
->>>>>>> Stashed changes
+
 
     private Long id;
 

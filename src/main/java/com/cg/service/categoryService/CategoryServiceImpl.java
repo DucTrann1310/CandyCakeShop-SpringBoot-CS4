@@ -1,6 +1,4 @@
-<<<<<<< Updated upstream
-package com.cg.service.categoryService;public class CategoryServiceImpl {
-=======
+
 package com.cg.service.categoryService;
 
 import com.cg.model.Category;
@@ -49,5 +47,5 @@ public class CategoryServiceImpl implements ICategoryService{
     public List<CategoryResDTO> findAllCategoriesResDTO() {
         return categoryRepository.findAllCategoriesResDTO();
     }
->>>>>>> Stashed changes
+
 }

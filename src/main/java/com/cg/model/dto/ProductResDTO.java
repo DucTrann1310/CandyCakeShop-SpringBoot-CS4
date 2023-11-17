@@ -1,6 +1,4 @@
-<<<<<<< Updated upstream
-package com.cg.model.DTO;public class ProductResDTo {
-=======
+
 package com.cg.model.dto;
 
 import com.cg.model.Category;
@@ -37,5 +35,5 @@ public class ProductResDTO {
         this.description = description;
         this.category = category.toCategoryResDTO();
     }
->>>>>>> Stashed changes
+
 }

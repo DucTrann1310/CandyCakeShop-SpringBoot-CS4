@@ -1,6 +1,4 @@
-<<<<<<< Updated upstream
-package com.cg.controller.rest;public class ProductAPI {
-=======
+
 package com.cg.controller.rest;
 
 import com.cg.model.dto.ProductResDTO;
@@ -32,5 +30,5 @@ public class ProductAPI {
 
 //    @PostMapping()
 
->>>>>>> Stashed changes
+
 }

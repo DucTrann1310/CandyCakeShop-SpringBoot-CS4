@@ -1,6 +1,4 @@
-<<<<<<< Updated upstream
-package com.cg.repository;public interface ProductRepository {
-=======
+
 package com.cg.repository;
 
 import com.cg.model.Product;
@@ -23,5 +21,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "FROM Product as p"
     )
     List<ProductResDTO> findAllProductResDTO();
->>>>>>> Stashed changes
+
 }

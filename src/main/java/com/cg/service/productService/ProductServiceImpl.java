@@ -1,6 +1,4 @@
-<<<<<<< Updated upstream
-package com.cg.service.productService;public class ProductServiceImpl {
-=======
+
 package com.cg.service.productService;
 
 import com.cg.model.Product;
@@ -49,5 +47,5 @@ public class ProductServiceImpl implements IProductService{
     public List<ProductResDTO> findAllProductResDTO() {
         return productRepository.findAllProductResDTO();
     }
->>>>>>> Stashed changes
+
 }
