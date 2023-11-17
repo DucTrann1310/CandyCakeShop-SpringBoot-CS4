@@ -1,6 +1,4 @@
-<<<<<<< Updated upstream
-package com.cg.service;public interface IGeneralService {
-=======
+
 package com.cg.service;
 
 import java.util.List;
@@ -16,5 +14,5 @@ public interface IGeneralService <E, T>{
     void update(E e);
 
     void deleteById(T id);
->>>>>>> Stashed changes
+
 }
