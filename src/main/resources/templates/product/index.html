@@ -5,7 +5,7 @@
     <th:block th:replace="/layout/head::admin"></th:block>
 </head>
 <body>
-<div class="container-xxl position-relative bg-white d-flex p-0">
+<div class="container-fluid position-relative bg-white d-flex p-0">
     <div class="sidebar pe-4 pb-3">
         <nav class="navbar bg-light navbar-light">
             <a href="/admin" class="navbar-brand mx-4 mb-3">
@@ -37,7 +37,7 @@
         </nav>
     </div>
 
-    <div class="content" style="width: 100%; margin-left: 0px">
+    <div class="content">
         <th:block th:replace="/layout/navBarAdmin"></th:block>
 
         <div class="container">
@@ -55,21 +55,12 @@
                             Create Product
                         </button>
                     </div>
-                    <form action="/product?page=${page.currentPage}"
-                          style="display: flex; align-items: center; margin-right: 10px;">
-                        <div>
-                            <input type="text" id="search" value="${search}" name="search" class="form-control"
-                                   style="width: 85%" placeholder="Search Product">
-                        </div>
-                        <div style="margin-left: 10px;">
-                            <button id="searchButton" class="btn btn-primary">Search</button>
-                        </div>
-                    </form>
                 </div>
 
-                <table class="table table-striped tbProduct">
+                <table class="table table-striped" id="tbProduct">
                     <thead>
                     <tr>
+                        <th>Id</th>
                         <th>Name</th>
                         <th>Category</th>
                         <th>Description</th>
@@ -86,7 +77,19 @@
     </div>
 </div>
 
+
+<!--loading-->
+<!--<th:block th:replace="/layout/loading::loading_1"></th:block>-->
+
+<th:block th:replace="/layout/loading::loading_2"></th:block>
+
 <!--Modal Create-->
 <th:block th:replace="/product/modalCreate"></th:block>
+
+<!--Modal Update-->
+<th:block th:replace="/product/modalUpdate"></th:block>
+
+<!--script admin-->
+<th:block th:replace="layout/head::admin_script"></th:block>
 </body>
 </html>

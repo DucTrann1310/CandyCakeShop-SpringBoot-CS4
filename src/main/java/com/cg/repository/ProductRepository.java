@@ -13,12 +13,13 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("SELECT  NEW com.cg.model.dto.ProductResDTO ( " +
             "p.id, " +
-            "p.name, " +
+            "p.productName, " +
             "p.price, " +
             "p.description," +
             "p.category " +
             ")" +
-            "FROM Product as p"
+            "FROM Product as p " +
+            "ORDER BY p.id DESC "
     )
     List<ProductResDTO> findAllProductResDTO();
 

@@ -17,9 +17,9 @@ public class ProductController {
     private IProductService productService;
 
     @GetMapping()
-    public String getAll(Model model){
+    public String getAll(){
 
-        model.addAttribute("products", productService.findAll());
+//        model.addAttribute("products", productService.findAll());
 
         return "product/index";
     }

@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 
 @AllArgsConstructor
@@ -15,17 +16,19 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "categories")
+@Accessors(chain = true)
 public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    @Column(name = "category_name")
+    private String categoryName;
 
     public CategoryResDTO toCategoryResDTO(){
         return new CategoryResDTO()
                 .setId(id)
-                .setName(name);
+                .setCategoryName(categoryName);
     }
 }

@@ -25,7 +25,7 @@ public class ProductServiceImpl implements IProductService{
 
     @Override
     public Optional<Product> findById(Long id) {
-        return Optional.empty();
+        return productRepository.findById(id);
     }
 
     @Override
