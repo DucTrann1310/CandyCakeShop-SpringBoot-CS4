@@ -19,6 +19,7 @@ page.elements.loading = $('#loading');
 
 page.elements.leftSideBarProduct = $("#left-side-bar-product")
 
+page.elements.leftSideBarActive = $(".active")
 
 page.elements.modalCreate = $("#modalCreate");
 page.elements.frmCreate = $("#frmCreate");
@@ -36,6 +37,7 @@ page.elements.priceUp = $("#priceUp");
 page.elements.productDescriptionUp = $("#productDescriptionUp");
 page.elements.btnUpdate = $("#btnUpdate")
 
+page.elements.leftSideBarActive.removeClass("active")
 
 page.elements.leftSideBarProduct.addClass("active")
 
