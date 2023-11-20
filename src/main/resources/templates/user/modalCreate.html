@@ -1,4 +1,6 @@
-<th:block th:fragment="create">
+
+
+<th:block th:fragment="modalCreate">
     <div class="modal fade" id="modalCreate" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered">
             <div class="modal-content">
@@ -10,16 +12,11 @@
                     <div class="area-error hide">
 
                     </div>
-                    <form id="usrcreate" method="post">
+                    <form id="usrCreate" method="post">
                         <div class="mb-3">
                             <label for="userNameCre" class="form-label">Full Name</label>
-                            <input type="text" class="form-control" id="userNameCre" name="name" required="true">
+                            <input type="text" class="form-control" id="userNameCre" name="userNameCre" required="true">
                             <div id="name-error" class="text-danger"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="phone" class="form-label">Phone Number</label>
-                            <input type="text" class="form-control" id="phone" name="phone" required="true">
-                            <div id="phone-error" class="text-danger"></div>
                         </div>
                         <div class="mb-3">
                             <label for="username" class="form-label">Username</label>
@@ -31,6 +28,11 @@
                             <input type="password" class="form-control" id="password" name="password"
                                    required="true">
                             <div id="password-error" class="text-danger"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userPhone" class="form-label">Phone Number</label>
+                            <input type="text" class="form-control" id="userPhone" name="userPhone" required="true">
+                            <div id="phone-error" class="text-danger"></div>
                         </div>
                         <div class="mb-3">
                             <label for="address" class="form-label">Address</label>
@@ -51,8 +53,8 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Role</label>
-                            <select class="form-control" name="role" id="role" required="">
+                            <label for="roleCre" class="form-label">Role</label>
+                            <select class="form-control" name="roleCre" id="roleCre" required="">
                                 <th:forEach var="role" items="${roles}">
                                     <option value="${role.id}">${role.name}</option>
                                 </th:forEach>
@@ -70,5 +72,5 @@
             </div>
         </div>
     </div>
-
 </th:block>
+

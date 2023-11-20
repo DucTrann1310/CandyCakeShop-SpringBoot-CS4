@@ -24,7 +24,7 @@ public class UserResDTO {
     private String address;
     private Date dob;
     private EGender gender;
-    private Role role;
+    private RoleResDTO role;
 
     public UserResDTO(Long id, String name, String phone, String username, String password, String address, Date dob, EGender gender, Role role) {
         this.id = id;
@@ -35,6 +35,6 @@ public class UserResDTO {
         this.address = address;
         this.dob = dob;
         this.gender = gender;
-        this.role = role;
+        this.role = role.toRoleResDTO();
     }
 }

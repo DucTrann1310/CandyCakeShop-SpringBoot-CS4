@@ -1,10 +1,10 @@
 const page = {
     url: {
-        getAllProduct: 'http://localhost:8080/api/users',
-        getAllCategories: 'http://localhost:8080/api/categories',
-        createProduct: 'http://localhost:8080/api/users',
-        updateProduct: 'http://localhost:8080/api/users/',
-        getProductById: 'http://localhost:8080/api/users/'
+        getAllUser: 'http://localhost:8080/api/users',
+        getAllRoles: 'http://localhost:8080/api/roles',
+        createUser: 'http://localhost:8080/api/users',
+        updateUser: 'http://localhost:8080/api/users/',
+        getUserById: 'http://localhost:8080/api/users/'
     },
     elements: {},
     loadData: {},
@@ -20,54 +20,60 @@ page.elements.loading = $('#loading');
 
 
 
-page.elements.create = $("#create");
-page.elements.usrcreate = $("#usrcreate");
+page.elements.modalCreate = $("#modalCreate");
+page.elements.usrCreate = $("#usrCreate");
 page.elements.userNameCre = $("#userNameCre");
-page.elements.productDescriptionCre = $("#productDescriptionCre");
+page.elements.roleCre = $("#roleCre");
+page.elements.userPhone = $("#userPhone");
+page.elements.username = $("#username");
+page.elements.password = $("#password");
+page.elements.address = $("#address");
+page.elements.dob = $("#dob");
+page.elements.gender = $("#gender");
+
+
 page.elements.btnCreate = $("#btnCreate")
 
 page.elements.modalUpdate = $("#modalUpdate");
-page.elements.frmUpdate = $("#frmUpdate");
-page.elements.productNameUp = $("#productNameUp");
-page.elements.categoryUp = $("#categoryUp");
-page.elements.productPriceUp = $("#productPriceUp");
-page.elements.productDescriptionUp = $("#productDescriptionUp");
+page.elements.usrUpdate = $("#usrUpdate");
+page.elements.userNameUp = $("#userNameUp");
+page.elements.roleUp = $("#roleUp");
 page.elements.btnUpdate = $("#btnUpdate")
 
 
-async function getAllProducts() {
+async function getAllUsers() {
     return await $.ajax({
-        url: page.url.getAllProduct
+        url: page.url.getAllUser
     })
 }
 
-page.loadData.getAllProducts = async () => {
-    const products = await getAllProducts();
+page.loadData.getAllUsers = async () => {
+    const users = await getAllUsers();
 
-    products.forEach(item => {
-        const str = page.commands.renderProduct(item)
+    users.forEach(item => {
+        const str = page.commands.renderUser(item)
 
-        page.elements.bodyProduct.append(str);
+        page.elements.bodyUser.append(str);
 
         page.commands.handleClickRow();
     })
 }
 
-page.loadData.getProductById = async () => {
+page.loadData.getUserById = async () => {
     return await $.ajax({
-        url: page.url.getProductById + productId
+        url: page.url.getUserById + userId
     })
 }
 
-page.commands.renderProduct = (obj) => {
+page.commands.renderUser = (obj) => {
     return `
         <tr id="tr_${obj.id}">
             <td>${obj.id}</td>
-            <td>${obj.productName}</td>
-            <td>${obj.category.categoryName}</td>
-            <td>${obj.description}</td>
-            <td>${obj.price}</td>
-<!--            <td>${obj.img}</td>-->
+            <td>${obj.userName}</td>
+            <td>${obj.role.roleName}</td>
+            <td>${obj.phone}</td>
+            <td>${obj.address}</td>
+            <td>${obj.dob}</td>
             <td>
                 <button class="btn btn-outline-info edit" id="data_${obj.id}" data-id="${obj.id}">
                     <i class="far fa-edit"></i>
@@ -78,35 +84,35 @@ page.commands.renderProduct = (obj) => {
     `
 }
 
-page.commands.getAllCategories = async () => {
+page.commands.getAllRoles = async () => {
 
-    page.elements.categoryCre.empty();
-    page.elements.categoryUp.empty();
+    page.elements.roleCre.empty();
+    page.elements.roleUp.empty();
 
     await $.ajax({
-        url: page.url.getAllCategories
+        url: page.url.getAllRoles
     })
-        .done((categories) => {
-            $.each(categories, (index, item) => {
-                const str = `<option value="${item.id}">${item.categoryName}</option>`
+        .done((roles) => {
+            $.each(roles, (index, item) => {
+                const str = `<option value="${item.id}">${item.roleName}</option>`
 
-                page.elements.categoryCre.append(str)
-                page.elements.categoryUp.append(str)
+                page.elements.roleCre.append(str)
+                page.elements.roleUp.append(str)
 
             })
         })
 };
 
 page.elements.btnCreate.on('click', async () => {
-    page.elements.frmCreate.trigger('submit')
+    page.elements.usrCreate.trigger('submit')
 })
 
 page.elements.btnUpdate.on('click', async () => {
-    page.elements.frmUpdate.trigger('submit')
+    page.elements.usrUpdate.trigger('submit')
 })
 
 
-page.elements.frmCreate.validate({
+page.elements.usrCreate.validate({
     onkeyup: function (element) {
         $(element).valid()
     },
@@ -143,16 +149,16 @@ page.elements.frmCreate.validate({
             $("#modalCreate .area-error").removeClass("hide").addClass("show");
         } else {
             $("#modalCreate .area-error").removeClass("show").addClass("hide").empty();
-            $("#frmCreate input.error").removeClass("error");
+            $("#usrCreate input.error").removeClass("error");
         }
         this.defaultShowErrors();
     },
     submitHandler: () => {
-        page.commands.createProduct()
+        page.commands.createUser()
     }
 })
 
-page.elements.frmUpdate.validate({
+page.elements.usrUpdate.validate({
     onkeyup: function (element) {
         $(element).valid()
     },
@@ -189,54 +195,62 @@ page.elements.frmUpdate.validate({
             $("#modalUpdate .area-error").removeClass("hide").addClass("show");
         } else {
             $("#modalUpdate .area-error").removeClass("show").addClass("hide").empty();
-            $("#frmUpdate input.error").removeClass("error");
+            $("#usrUpdate input.error").removeClass("error");
         }
         this.defaultShowErrors();
     },
     submitHandler: () => {
-        page.commands.updateProduct()
+        page.commands.updateUser()
     }
 })
 
 page.elements.modalCreate.on('hidden.bs.modal', async () => {
     $('#modalCreate .area-error').empty().addClass('hide');
-    $('#frmCreate').trigger('reset')
-    $('#frmCreate input').removeClass('error')
-    $('#frmCreate label.error').remove()
+    $('#usrCreate').trigger('reset')
+    $('#usrCreate input').removeClass('error')
+    $('#usrCreate label.error').remove()
 
-    await page.commands.getAllCategories()
+    await page.commands.getAllRoles()
 
 })
 
 page.elements.modalUpdate.on('hidden.bs.modal', async () => {
     $('#modalUpdate .area-error').empty().addClass('hide');
-    $('#frmUpdate').trigger('reset')
-    $('#frmUpdate input').removeClass('error')
-    $('#frmUpdate label.error').remove()
+    $('#usrUpdate').trigger('reset')
+    $('#usrUpdate input').removeClass('error')
+    $('#usrUpdate label.error').remove()
 
-    await page.commands.getAllCategories()
+    await page.commands.getAllRoles()
 
 })
 
 
 
-page.commands.createProduct = () => {
-    const productName = page.elements.productNameCre.val();
-    const price = page.elements.productPriceCre.val();
-    const description = page.elements.productDescriptionCre.val();
-    const id = page.elements.categoryCre.val();
-    const categoryName = page.elements.categoryCre.find('option:selected').text();
+page.commands.createUser = () => {
+    const fullName = page.elements.userNameCre.val();
+    const userName = page.elements.username.val();
+    const password = page.elements.password.val();
+    const phone = page.elements.userPhone.val();
+    const address = page.elements.address.val();
+    const dob = page.elements.dob.val();
+    const gender = page.elements.gender.val();
+    const id = page.elements.roleCre.val();
+    const roleName = page.elements.roleCre.find('option:selected').text();
 
-    const categoryCreReqDTO = {
+    const roleCreReqDTO = {
         id,
-        categoryName
+        roleName
     }
 
-    const product = {
-        productName,
-        categoryCreReqDTO,
-        price,
-        description
+    const user = {
+        fullName,
+        userName,
+        roleCreReqDTO,
+        password,
+        phone,
+        address,
+        dob,
+        gender
     }
 
     page.elements.btnCreate.prop("disabled", true);
@@ -247,13 +261,13 @@ page.commands.createProduct = () => {
         $.ajax(
             {
                 method: 'POST',
-                url: page.url.createProduct,
-                data: JSON.stringify(product)
+                url: page.url.createUser,
+                data: JSON.stringify(user)
             }
         )
             .done((data) => {
-                const str = page.commands.renderProduct(data)
-                page.elements.bodyProduct.prepend(str);
+                const str = page.commands.renderUser(data)
+                page.elements.bodyUser.prepend(str);
 
                 page.elements.modalCreate.modal('hide');
 
@@ -289,23 +303,31 @@ page.commands.createProduct = () => {
     }, 1000);
 }
 
-page.commands.updateProduct = () => {
-    const productName = page.elements.productNameUp.val();
-    const price = page.elements.productPriceUp.val();
-    const description = page.elements.productDescriptionUp.val();
-    const id = page.elements.categoryUp.val();
-    const categoryName = page.elements.categoryUp.find('option:selected').text();
+page.commands.updateUser = () => {
+    const fullName = page.elements.userNameUp.val();
+    const userName = page.elements.username.val();
+    const password = page.elements.password.val();
+    const phone = page.elements.userPhone.val();
+    const address = page.elements.address.val();
+    const dob = page.elements.dob.val();
+    const gender = page.elements.gender.val();
+    const id = page.elements.roleCre.val();
+    const roleName = page.elements.roleCre.find('option:selected').text();
 
-    const categoryUpReqDTO = {
+    const roleUpReqDTO = {
         id,
-        categoryName
+        roleName
     }
 
-    const product = {
-        productName,
-        categoryUpReqDTO,
-        price,
-        description
+    const user = {
+        fullName,
+        userName,
+        roleUpReqDTO,
+        password,
+        phone,
+        address,
+        dob,
+        gender
     }
 
     page.elements.btnUpdate.prop("disabled", true);
@@ -316,14 +338,13 @@ page.commands.updateProduct = () => {
         $.ajax(
             {
                 method: 'PATCH',
-                url: page.url.updateProduct + productId,
-                data: JSON.stringify(product)
+                url: page.url.updateUser + userId,
+                data: JSON.stringify(user)
             }
         )
             .done((data) => {
-                const str = page.commands.renderProduct(data)
-                $("#tr_" + productId).replaceWith(str);
-                // page.elements.bodyProduct.replaceWith(str);
+                const str = page.commands.renderUser(data)
+                $("#tr_" + userId).replaceWith(str);
 
                 page.elements.modalUpdate.modal('hide');
 
@@ -369,15 +390,19 @@ page.commands.handleClickEditButton = () => {
 
         $(item).on("click", async () => {
 
-            productId = item.getAttribute("data-id")
+            userId = item.getAttribute("data-id")
 
-            const product = await page.loadData.getProductById(productId)
+            const user = await page.loadData.getUserById(userId)
 
-            page.elements.productNameUp.val(product.productName);
-            await page.commands.getAllCategories();
-            await page.elements.categoryUp.val(product.category.id);
-            page.elements.productPriceUp.val(product.price);
-            page.elements.productDescriptionUp.val(product.description)
+            page.elements.userNameUp.val(user.fullName);
+            page.elements.username.val(user.userName);
+            await page.commands.getAllRoles();
+            await page.elements.roleUp.val(user.role.id);
+            page.elements.userPhone.val(user.phone);
+            page.elements.password.val(user.password);
+            page.elements.address.val(user.address);
+            page.elements.dob.val(user.dob);
+            page.elements.gender.val(user.gender);
 
             page.elements.modalUpdate.modal("show")
         })
@@ -398,9 +423,9 @@ $.ajaxSetup({
 
 $(async () => {
 
-    await page.loadData.getAllProducts();
+    await page.loadData.getAllUsers();
 
-    await page.commands.getAllCategories();
+    await page.commands.getAllRoles();
 
 
 

@@ -1,0 +1,85 @@
+<th:block th:fragment="modalUpdate">
+    <div class="modal fade" id="modalUpdate" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Update User</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="area-error hide">
+
+                    </div>
+                    <form id="usrUpdate" method="post">
+                        <input type="hidden" name="id" value="${userUpdate.id}">
+                        <div class="mb-3">
+                            <label for="userNameUp" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="userNameUp" name="userNameUp" value="${userUpdate.name}"
+                                   required="true">
+                            <div id="name-error" class="text-danger"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userPhoneUp" class="form-label">Phone</label>
+                            <input type="text" class="form-control" id="userPhoneUp" name="userPhoneUp"
+                                   value="${userUpdate.phone}"
+                                   required="true">
+                            <div id="phone-error" class="text-danger"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" name="username"
+                                   value="${userUpdate.username}"
+                                   readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="address" class="form-label">Address</label>
+                            <input type="text" class="form-control" id="address" name="address"
+                                   value="${userUpdate.address}"
+                                   required="true">
+                            <div id="address-error" class="text-danger"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="dob" class="form-label">Date of birth</label>
+                            <input type="date" class="form-control" id="dob" name="dob" value="${userUpdate.dob}"
+                                   required="true">
+                            <div id="dob-error" class="text-danger"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="gender" class="form-label">Gender</label>
+                            <select class="form-control" name="gender" id="gender" required="">
+                                <th:forEach var="gender" items="${genders}">
+                                    <option value="${gender}" ${gender== userUpdate.gender ? "selected":""}>${gender}</option>
+                                </th:forEach>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="roleUp" class="form-label">Role</label>
+                            <th:if test="${user.role.id=='1'}">
+                                <select class="form-control" name="roleUp" id="roleUp" required="">
+                                    <th:forEach var="role" items="${roles}">
+                                        <option value="${role.id}" ${role.id== userUpdate.role.id ?
+                                        "selectd":""}>${role.name}</option>
+                                    </th:forEach>
+                                </select>
+                            </th:if>
+                            <th:if test="${user.role.id=='2'}">
+                                <input type="text" class="form-control" id="role" name="role"
+                                       value="${userUpdate.role.id}"
+                                       required="true" readonly hidden="">
+                                <input type="text" class="form-control" , value="${user.role.name}" readonly>
+                            </th:if>
+
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-outline-info" id="btnUpdate">
+                        <i class="fas fa-pencil"></i>
+                        Update
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
