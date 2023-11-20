@@ -17,14 +17,14 @@ page.elements.bodyProduct = $("#tbProduct tbody");
 
 page.elements.loading = $('#loading');
 
-
+page.elements.leftSideBarProduct = $("#left-side-bar-product")
 
 
 page.elements.modalCreate = $("#modalCreate");
 page.elements.frmCreate = $("#frmCreate");
 page.elements.productNameCre = $("#productNameCre");
 page.elements.categoryCre = $("#categoryCre");
-page.elements.productPriceCre = $("#productPriceCre");
+page.elements.priceCre = $("#priceCre");
 page.elements.productDescriptionCre = $("#productDescriptionCre");
 page.elements.btnCreate = $("#btnCreate")
 
@@ -32,10 +32,12 @@ page.elements.modalUpdate = $("#modalUpdate");
 page.elements.frmUpdate = $("#frmUpdate");
 page.elements.productNameUp = $("#productNameUp");
 page.elements.categoryUp = $("#categoryUp");
-page.elements.productPriceUp = $("#productPriceUp");
+page.elements.priceUp = $("#priceUp");
 page.elements.productDescriptionUp = $("#productDescriptionUp");
 page.elements.btnUpdate = $("#btnUpdate")
 
+
+page.elements.leftSideBarProduct.addClass("active")
 
 async function getAllProducts() {
     return await $.ajax({
@@ -224,7 +226,7 @@ page.elements.modalUpdate.on('hidden.bs.modal', async () => {
 
 page.commands.createProduct = () => {
     const productName = page.elements.productNameCre.val();
-    const price = page.elements.productPriceCre.val();
+    const price = page.elements.priceCre.val();
     const description = page.elements.productDescriptionCre.val();
     const id = page.elements.categoryCre.val();
     const categoryName = page.elements.categoryCre.find('option:selected').text();
@@ -293,7 +295,7 @@ page.commands.createProduct = () => {
 
 page.commands.updateProduct = () => {
     const productName = page.elements.productNameUp.val();
-    const price = page.elements.productPriceUp.val();
+    const price = page.elements.priceUp.val();
     const description = page.elements.productDescriptionUp.val();
     const id = page.elements.categoryUp.val();
     const categoryName = page.elements.categoryUp.find('option:selected').text();
