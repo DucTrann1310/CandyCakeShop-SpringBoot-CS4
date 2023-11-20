@@ -1,0 +1,46 @@
+
+<th:block th:fragment="modalCreate">
+    <div class="modal fade" id="modalCreate" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Create Product</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="area-error hide">
+
+                    </div>
+                    <form id="frmCreate" method="post">
+                        <div class="mb-3">
+                            <label for="productNameCre" class="form-label">Product Name</label>
+                            <input type="text" class="form-control" id="productNameCre" name="productNameCre">
+                        </div>
+                        <div class="mb-3">
+                            <label for="categoryCre" class="form-label">Category</label>
+                            <select class="form-control" name="categoryCre" id="categoryCre">
+
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="productPriceCre" class="form-label">Price</label>
+                            <input type="text" class="form-control" name="productPriceCre" id="productPriceCre">
+                        </div>
+                        <div class="mb-3">
+                            <label for="productDescriptionCre" class="form-label">Description</label>
+                            <input type="text" class="form-control" name="productDescriptionCre" id="productDescriptionCre">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-outline-success" id="btnCreate">
+                        <i class="fas fa-plus"></i>
+                        Create
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+
