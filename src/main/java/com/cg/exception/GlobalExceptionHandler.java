@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex, HttpHeaders headers,
             HttpStatus status, WebRequest request) {
