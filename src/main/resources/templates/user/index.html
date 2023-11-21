@@ -1,0 +1,134 @@
+
+<head>
+    <title>DASHMIN - Bootstrap Admin Template</title>
+    <th:block th:replace="/layout/head::admin"></th:block>
+
+
+</head>
+
+<body>
+<div class="container-fluid position-relative bg-white d-flex p-0">
+    <div class="sidebar pe-4 pb-3">
+        <nav class="navbar bg-light navbar-light">
+            <a href="/admin" class="navbar-brand mx-4 mb-3">
+                <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>User</h3>
+            </a>
+            <div class="d-flex align-items-center ms-4 mb-4">
+                <div class="position-relative">
+                    <a href="/admin"></a>
+                    <img class="rounded-circle" src="/img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                    <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
+                </div>
+                <div class="ms-3">
+                    <h6 class="mb-0">${user.name}</h6>
+                    <span>${user.role.name}</span>
+                </div>
+            </div>
+            <div class="navbar-nav w-100">
+                <a href="/templates/userlates/user?action=profile&id=${user.id}" class="nav-item nav-link"><i
+                        class="fa fa-tachometer-alt me-2"></i>Profile</a>
+                <a href="/products" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Product</a>
+                <a href="/product-import" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Product
+                    Import</a>
+                <a href="/user" class="nav-item nav-link active"><i
+                        class="fa fa-table me-2"></i>User</a>
+                <a href="/express" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Express</a>
+                <a href="/order" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Order</a>
+            </div>
+        </nav>
+    </div>
+    <!-- Sidebar End -->
+
+
+    <!-- Content Start -->
+    <div class="content">
+        <th:block th:replace="/layout/navBarAdmin"></th:block>
+        <div class="container">
+            <div class="card container px-6" style="height: 100vh">
+                <h3 class="text-center">Management User</h3>
+                <th:if test="${message != null}">
+                    <h6 class="d-none" id="message">${message}</h6>
+                </th:if>
+
+                <div style="display: flex; align-items: center;">
+                    <div style="margin-right: auto;">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" onclick="showCreate()"
+                                data-bs-target="#staticBackdrop">
+                            <i class="far fa-plus-square"></i>
+                            Create
+                        </button>
+                    </div>
+                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog" style="max-width: 800px">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="userForm">
+                                        <div class="row">
+                                            <div id="formBody">
+
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <td>Id</td>
+                        <td>Full Name</td>
+                        <td >Username</td>
+                        <td>Phone</td>
+                        <td>Address</td>
+                        <td>Date of Birth</td>
+                        <td>Gender</td>
+                        <td>Role</td>
+                        <td>Action</td>
+                    </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0" id="tBody">
+
+                    </tbody>
+                </table>
+                <div class="d-flex justify-content-end">
+                    <nav aria-label="...">
+                        <ul class="pagination" id="pagination">
+
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--<th:block th:replace="/user/create"></th:block>-->
+<!--Modal Create-->
+<!--<th:block th:replace="/user/modalCreate"></th:block>-->
+
+<!--Modal Update-->
+<!--<th:block th:replace="/user/modalUpdate"></th:block>-->
+
+<!--script admin-->
+<th:block th:replace="layout/head::user_script"></th:block>
+<script src="/assets/js/base.js"></script>
+<script src="/assets/js/user.js"></script>
+<script src ="/assets/web-toast/src/webToast.js"></script>
+<script src ="/assets/web-toast/src/bootstrap.js"></script>
+<!--<script src ="/assets/web-toast/src/jquery.js"></script>-->
+
+</body>
+</html>
