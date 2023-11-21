@@ -23,11 +23,13 @@ public class User {
     private String address;
     private Date dob;
 
-    @Enumerated(value = EnumType.STRING)
-    private EGender gender;
 
-     @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "role_id")
     private Role role;
 
+    @ManyToOne
+    @JoinColumn(name = "gender_id")
+    private Gender gender;
 
 }
