@@ -17,7 +17,7 @@ public class ProductController {
     private IProductService productService;
 
     @GetMapping()
-    public String getAll(){
+    public String getAllProduct(){
 
 //        model.addAttribute("products", productService.findAll());
 

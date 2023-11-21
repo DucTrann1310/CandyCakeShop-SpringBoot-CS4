@@ -1,7 +1,12 @@
-//package com.cg.service.productImportService;
-//
-//import com.cg.model.ProductImport;
-//import com.cg.service.IGeneralService;
-//
-//public interface IProductImportService extends IGeneralService<ProductImport, Long> {
-//}
+package com.cg.service.productImportService;
+
+import com.cg.model.ProductImport;
+import com.cg.model.dto.ProductImportListResDTO;
+import com.cg.service.IGeneralService;
+
+import java.util.List;
+
+public interface IProductImportService extends IGeneralService<ProductImport, Long> {
+
+    List<ProductImportListResDTO> findAllProductImportResDTO();
+}

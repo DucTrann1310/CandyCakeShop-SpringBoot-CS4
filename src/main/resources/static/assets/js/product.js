@@ -17,9 +17,15 @@ page.elements.bodyProduct = $("#tbProduct tbody");
 
 page.elements.loading = $('#loading');
 
+page.elements.leftSideBarActive = $(".active")
+
 page.elements.leftSideBarProduct = $("#left-side-bar-product")
 
-page.elements.leftSideBarActive = $(".active")
+page.elements.leftSideBarActive.removeClass("active")
+
+page.elements.leftSideBarProduct.addClass("active")
+
+
 
 page.elements.modalCreate = $("#modalCreate");
 page.elements.frmCreate = $("#frmCreate");
@@ -37,9 +43,7 @@ page.elements.priceUp = $("#priceUp");
 page.elements.productDescriptionUp = $("#productDescriptionUp");
 page.elements.btnUpdate = $("#btnUpdate")
 
-page.elements.leftSideBarActive.removeClass("active")
 
-page.elements.leftSideBarProduct.addClass("active")
 
 async function getAllProducts() {
     return await $.ajax({
@@ -53,7 +57,7 @@ page.loadData.getAllProducts = async () => {
       products.forEach(item => {
         const str = page.commands.renderProduct(item)
 
-        page.elements.bodyProduct.append(str);
+        page.elements.bodyProduct.prepend(str);
 
         page.commands.handleClickRow();
     })
@@ -75,7 +79,7 @@ page.commands.renderProduct = (obj) => {
             <td>${obj.price}</td>
 <!--            <td>${obj.img}</td>-->
             <td>
-                <button class="btn btn-outline-info edit" id="data_${obj.id}" data-id="${obj.id}">
+                <button class="btn btn-outline-secondary edit" id="data_${obj.id}" data-id="${obj.id}">
                     <i class="far fa-edit"></i>
                     Edit
                 </button>
@@ -93,6 +97,7 @@ page.commands.getAllCategories = async () => {
         url: page.url.getAllCategories
     })
         .done((categories) => {
+
             $.each(categories, (index, item) => {
                 const str = `<option value="${item.id}">${item.categoryName}</option>`
 
@@ -102,129 +107,6 @@ page.commands.getAllCategories = async () => {
             })
         })
 };
-
-page.elements.btnCreate.on('click', async () => {
-    page.elements.frmCreate.trigger('submit')
-})
-
-page.elements.btnUpdate.on('click', async () => {
-    page.elements.frmUpdate.trigger('submit')
-})
-
-
-page.elements.frmCreate.validate({
-    onkeyup: function (element) {
-        $(element).valid()
-    },
-    onclick: false,
-    onfocusout: false,
-    rules: {
-        // productNameCre: {
-        //     required: true,
-        //     minlength: 5
-        // },
-        // productPriceCre: {
-        //     required: true,
-        //     digits: true,
-        //     min: 1000
-        // }
-    },
-    messages: {
-        // productNameCre: {
-        //     required: 'Vui lòng nhập tên sản phẩm',
-        //     minlength: 'Tên sản phẩm phải chứa ít nhất 5 kí tự'
-        // },
-        // productPriceCre: {
-        //     required: "Vui lòng nhập giá sản phẩm",
-        //     digits: "Giá sản phẩm phải là một số",
-        //     min: "Giá sản phẩm phải tối thiểu là 1000"
-        // }
-    },
-    errorLabelContainer: "#modalCreate .area-error",
-    errorPlacement: function (error, element) {
-        error.appendTo("#modalCreate .area-error");
-    },
-    showErrors: function (errorMap, errorList) {
-        if (this.numberOfInvalids() > 0) {
-            $("#modalCreate .area-error").removeClass("hide").addClass("show");
-        } else {
-            $("#modalCreate .area-error").removeClass("show").addClass("hide").empty();
-            $("#frmCreate input.error").removeClass("error");
-        }
-        this.defaultShowErrors();
-    },
-    submitHandler: () => {
-        page.commands.createProduct()
-    }
-})
-
-page.elements.frmUpdate.validate({
-    onkeyup: function (element) {
-        $(element).valid()
-    },
-    onclick: false,
-    onfocusout: false,
-    rules: {
-        // productNameUp: {
-        //     required: true,
-        //     minlength: 5
-        // },
-        // productPriceUp: {
-        //     required: true,
-        //     digits: true,
-        //     min: 1000
-        // }
-    },
-    messages: {
-        // productNameUp: {
-        //     required: 'Vui lòng nhập tên sản phẩm',
-        //     minlength: 'Tên sản phẩm phải chứa ít nhất 5 kí tự'
-        // },
-        // productPriceUp: {
-        //     required: "Vui lòng nhập giá sản phẩm",
-        //     digits: "Giá sản phẩm phải là một số",
-        //     min: "Giá sản phẩm phải tối thiểu là 1000"
-        // }
-    },
-    errorLabelContainer: "#modalUpdate .area-error",
-    errorPlacement: function (error, element) {
-        error.appendTo("#modalUpdate .area-error");
-    },
-    showErrors: function (errorMap, errorList) {
-        if (this.numberOfInvalids() > 0) {
-            $("#modalUpdate .area-error").removeClass("hide").addClass("show");
-        } else {
-            $("#modalUpdate .area-error").removeClass("show").addClass("hide").empty();
-            $("#frmUpdate input.error").removeClass("error");
-        }
-        this.defaultShowErrors();
-    },
-    submitHandler: () => {
-        page.commands.updateProduct()
-    }
-})
-
-page.elements.modalCreate.on('hidden.bs.modal', async () => {
-    $('#modalCreate .area-error').empty().addClass('hide');
-    $('#frmCreate').trigger('reset')
-    $('#frmCreate input').removeClass('error')
-    $('#frmCreate label.error').remove()
-
-    await page.commands.getAllCategories()
-
-})
-
-page.elements.modalUpdate.on('hidden.bs.modal', async () => {
-    $('#modalUpdate .area-error').empty().addClass('hide');
-    $('#frmUpdate').trigger('reset')
-    $('#frmUpdate input').removeClass('error')
-    $('#frmUpdate label.error').remove()
-
-    await page.commands.getAllCategories()
-
-})
-
-
 
 page.commands.createProduct = () => {
     const productName = page.elements.productNameCre.val();
@@ -365,6 +247,12 @@ page.commands.updateProduct = () => {
     }, 1000);
 }
 
+
+page.commands.handleClickRow = () => {
+
+    page.commands.handleClickEditButton()
+}
+
 page.commands.handleClickEditButton = () => {
 
     page.elements.btnEditElems = $(".edit")
@@ -382,7 +270,7 @@ page.commands.handleClickEditButton = () => {
             page.elements.productNameUp.val(product.productName);
             await page.commands.getAllCategories();
             await page.elements.categoryUp.val(product.category.id);
-            page.elements.productPriceUp.val(product.price);
+            page.elements.priceUp.val(product.price);
             page.elements.productDescriptionUp.val(product.description)
 
             page.elements.modalUpdate.modal("show")
@@ -390,10 +278,125 @@ page.commands.handleClickEditButton = () => {
     })
 }
 
-page.commands.handleClickRow = () => {
+page.elements.btnCreate.on('click', async () => {
+    page.elements.frmCreate.trigger('submit')
+})
 
-    page.commands.handleClickEditButton()
-}
+page.elements.btnUpdate.on('click', async () => {
+    page.elements.frmUpdate.trigger('submit')
+})
+
+page.elements.frmCreate.validate({
+    onkeyup: function (element) {
+        $(element).valid()
+    },
+    onclick: false,
+    onfocusout: false,
+    rules: {
+        // productNameCre: {
+        //     required: true,
+        //     minlength: 5
+        // },
+        // productPriceCre: {
+        //     required: true,
+        //     digits: true,
+        //     min: 1000
+        // }
+    },
+    messages: {
+        // productNameCre: {
+        //     required: 'Vui lòng nhập tên sản phẩm',
+        //     minlength: 'Tên sản phẩm phải chứa ít nhất 5 kí tự'
+        // },
+        // productPriceCre: {
+        //     required: "Vui lòng nhập giá sản phẩm",
+        //     digits: "Giá sản phẩm phải là một số",
+        //     min: "Giá sản phẩm phải tối thiểu là 1000"
+        // }
+    },
+    errorLabelContainer: "#modalCreate .area-error",
+    errorPlacement: function (error, element) {
+        error.appendTo("#modalCreate .area-error");
+    },
+    showErrors: function (errorMap, errorList) {
+        if (this.numberOfInvalids() > 0) {
+            $("#modalCreate .area-error").removeClass("hide").addClass("show");
+        } else {
+            $("#modalCreate .area-error").removeClass("show").addClass("hide").empty();
+            $("#frmCreate input.error").removeClass("error");
+        }
+        this.defaultShowErrors();
+    },
+    submitHandler: () => {
+        page.commands.createProduct()
+    }
+})
+
+page.elements.frmUpdate.validate({
+    onkeyup: function (element) {
+        $(element).valid()
+    },
+    onclick: false,
+    onfocusout: false,
+    rules: {
+        // productNameUp: {
+        //     required: true,
+        //     minlength: 5
+        // },
+        // productPriceUp: {
+        //     required: true,
+        //     digits: true,
+        //     min: 1000
+        // }
+    },
+    messages: {
+        // productNameUp: {
+        //     required: 'Vui lòng nhập tên sản phẩm',
+        //     minlength: 'Tên sản phẩm phải chứa ít nhất 5 kí tự'
+        // },
+        // productPriceUp: {
+        //     required: "Vui lòng nhập giá sản phẩm",
+        //     digits: "Giá sản phẩm phải là một số",
+        //     min: "Giá sản phẩm phải tối thiểu là 1000"
+        // }
+    },
+    errorLabelContainer: "#modalUpdate .area-error",
+    errorPlacement: function (error, element) {
+        error.appendTo("#modalUpdate .area-error");
+    },
+    showErrors: function (errorMap, errorList) {
+        if (this.numberOfInvalids() > 0) {
+            $("#modalUpdate .area-error").removeClass("hide").addClass("show");
+        } else {
+            $("#modalUpdate .area-error").removeClass("show").addClass("hide").empty();
+            $("#frmUpdate input.error").removeClass("error");
+        }
+        this.defaultShowErrors();
+    },
+    submitHandler: () => {
+        page.commands.updateProduct()
+    }
+})
+
+page.elements.modalCreate.on('hidden.bs.modal', async () => {
+    $('#modalCreate .area-error').empty().addClass('hide');
+    $('#frmCreate').trigger('reset')
+    $('#frmCreate input').removeClass('error')
+    $('#frmCreate label.error').remove()
+
+    await page.commands.getAllCategories()
+
+})
+
+page.elements.modalUpdate.on('hidden.bs.modal', async () => {
+    $('#modalUpdate .area-error').empty().addClass('hide');
+    $('#frmUpdate').trigger('reset')
+    $('#frmUpdate input').removeClass('error')
+    $('#frmUpdate label.error').remove()
+
+    await page.commands.getAllCategories()
+
+})
 
 
 $.ajaxSetup({
@@ -404,10 +407,10 @@ $.ajaxSetup({
 
 $(async () => {
 
+
+
     await page.loadData.getAllProducts();
 
     await page.commands.getAllCategories();
-
-
 
 })

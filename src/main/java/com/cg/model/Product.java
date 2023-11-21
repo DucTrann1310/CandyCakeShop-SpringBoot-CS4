@@ -1,13 +1,13 @@
 package com.cg.model;
 
 import com.cg.model.dto.ProductResDTO;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
