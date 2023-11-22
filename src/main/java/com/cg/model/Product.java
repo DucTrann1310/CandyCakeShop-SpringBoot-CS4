@@ -31,6 +31,9 @@ public class Product {
 
     private String description;
 
+    @Column(name = "quantity_sold")
+    private Long quantitySold;
+
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     private Category category;

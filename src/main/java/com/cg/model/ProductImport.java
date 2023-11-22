@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -16,15 +17,13 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "product_imports")
+@Accessors(chain = true)
 public class ProductImport extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String code;
-
-    private BigDecimal total;
 
     @Column(columnDefinition = "boolean default false")
     private boolean confirm;

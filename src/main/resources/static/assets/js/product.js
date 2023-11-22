@@ -1,4 +1,4 @@
-const page = {
+const pageProduct = {
     url: {
         getAllProduct: 'http://localhost:8080/api/products',
         getAllCategories: 'http://localhost:8080/api/categories',
@@ -13,63 +13,63 @@ const page = {
 
 let productId = 0;
 
-page.elements.bodyProduct = $("#tbProduct tbody");
+pageProduct.elements.bodyProduct = $("#tbProduct tbody");
 
-page.elements.loading = $('#loading');
+pageProduct.elements.loading = $('#loading');
 
-page.elements.leftSideBarActive = $(".active")
+pageProduct.elements.leftSideBarActive = $(".active")
 
-page.elements.leftSideBarProduct = $("#left-side-bar-product")
+pageProduct.elements.leftSideBarProduct = $("#left-side-bar-product")
 
-page.elements.leftSideBarActive.removeClass("active")
+pageProduct.elements.leftSideBarActive.removeClass("active")
 
-page.elements.leftSideBarProduct.addClass("active")
+pageProduct.elements.leftSideBarProduct.addClass("active")
 
 
 
-page.elements.modalCreate = $("#modalCreate");
-page.elements.frmCreate = $("#frmCreate");
-page.elements.productNameCre = $("#productNameCre");
-page.elements.categoryCre = $("#categoryCre");
-page.elements.priceCre = $("#priceCre");
-page.elements.productDescriptionCre = $("#productDescriptionCre");
-page.elements.btnCreate = $("#btnCreate")
+pageProduct.elements.modalCreate = $("#modalCreate");
+pageProduct.elements.frmCreate = $("#frmCreate");
+pageProduct.elements.productNameCre = $("#productNameCre");
+pageProduct.elements.categoryCre = $("#categoryCre");
+pageProduct.elements.priceCre = $("#priceCre");
+pageProduct.elements.productDescriptionCre = $("#productDescriptionCre");
+pageProduct.elements.btnCreate = $("#btnCreate")
 
-page.elements.modalUpdate = $("#modalUpdate");
-page.elements.frmUpdate = $("#frmUpdate");
-page.elements.productNameUp = $("#productNameUp");
-page.elements.categoryUp = $("#categoryUp");
-page.elements.priceUp = $("#priceUp");
-page.elements.productDescriptionUp = $("#productDescriptionUp");
-page.elements.btnUpdate = $("#btnUpdate")
+pageProduct.elements.modalUpdate = $("#modalUpdate");
+pageProduct.elements.frmUpdate = $("#frmUpdate");
+pageProduct.elements.productNameUp = $("#productNameUp");
+pageProduct.elements.categoryUp = $("#categoryUp");
+pageProduct.elements.priceUp = $("#priceUp");
+pageProduct.elements.productDescriptionUp = $("#productDescriptionUp");
+pageProduct.elements.btnUpdate = $("#btnUpdate")
 
 
 
 async function getAllProducts() {
     return await $.ajax({
-        url: page.url.getAllProduct
+        url: pageProduct.url.getAllProduct
     })
 }
 
-page.loadData.getAllProducts = async () => {
+pageProduct.loadData.getAllProducts = async () => {
     const products = await getAllProducts();
 
       products.forEach(item => {
-        const str = page.commands.renderProduct(item)
+        const str = pageProduct.commands.renderProduct(item)
 
-        page.elements.bodyProduct.prepend(str);
+        pageProduct.elements.bodyProduct.prepend(str);
 
-        page.commands.handleClickRow();
+        pageProduct.commands.handleClickRow();
     })
 }
 
-page.loadData.getProductById = async () => {
+pageProduct.loadData.getProductById = async () => {
     return await $.ajax({
-        url: page.url.getProductById + productId
+        url: pageProduct.url.getProductById + productId
     })
 }
 
-page.commands.renderProduct = (obj) => {
+pageProduct.commands.renderProduct = (obj) => {
     return `
         <tr id="tr_${obj.id}">
             <td>${obj.id}</td>
@@ -88,32 +88,32 @@ page.commands.renderProduct = (obj) => {
     `
 }
 
-page.commands.getAllCategories = async () => {
+pageProduct.commands.getAllCategories = async () => {
 
-    page.elements.categoryCre.empty();
-    page.elements.categoryUp.empty();
+    pageProduct.elements.categoryCre.empty();
+    pageProduct.elements.categoryUp.empty();
 
     await $.ajax({
-        url: page.url.getAllCategories
+        url: pageProduct.url.getAllCategories
     })
         .done((categories) => {
 
             $.each(categories, (index, item) => {
                 const str = `<option value="${item.id}">${item.categoryName}</option>`
 
-                page.elements.categoryCre.append(str)
-                page.elements.categoryUp.append(str)
+                pageProduct.elements.categoryCre.append(str)
+                pageProduct.elements.categoryUp.append(str)
 
             })
         })
 };
 
-page.commands.createProduct = () => {
-    const productName = page.elements.productNameCre.val();
-    const price = page.elements.priceCre.val();
-    const description = page.elements.productDescriptionCre.val();
-    const id = page.elements.categoryCre.val();
-    const categoryName = page.elements.categoryCre.find('option:selected').text();
+pageProduct.commands.createProduct = () => {
+    const productName = pageProduct.elements.productNameCre.val();
+    const price = pageProduct.elements.priceCre.val();
+    const description = pageProduct.elements.productDescriptionCre.val();
+    const id = pageProduct.elements.categoryCre.val();
+    const categoryName = pageProduct.elements.categoryCre.find('option:selected').text();
 
     const categoryCreReqDTO = {
         id,
@@ -127,23 +127,23 @@ page.commands.createProduct = () => {
         description
     }
 
-    page.elements.btnCreate.prop("disabled", true);
+    pageProduct.elements.btnCreate.prop("disabled", true);
 
-    page.elements.loading.removeClass('hide');
+    pageProduct.elements.loading.removeClass('hide');
 
     setTimeout(() => {
         $.ajax(
             {
                 method: 'POST',
-                url: page.url.createProduct,
+                url: pageProduct.url.createProduct,
                 data: JSON.stringify(product)
             }
         )
             .done((data) => {
-                const str = page.commands.renderProduct(data)
-                page.elements.bodyProduct.prepend(str);
+                const str = pageProduct.commands.renderProduct(data)
+                pageProduct.elements.bodyProduct.prepend(str);
 
-                page.elements.modalCreate.modal('hide');
+                pageProduct.elements.modalCreate.modal('hide');
 
                 AppUtils.showSuccess('Thêm mới thành công');
 
@@ -171,18 +171,18 @@ page.commands.createProduct = () => {
                 }
             })
             .always(() => {
-                page.elements.btnCreate.prop("disabled", false);
-                page.elements.loading.addClass('hide')
+                pageProduct.elements.btnCreate.prop("disabled", false);
+                pageProduct.elements.loading.addClass('hide')
             });
     }, 1000);
 }
 
-page.commands.updateProduct = () => {
-    const productName = page.elements.productNameUp.val();
-    const price = page.elements.priceUp.val();
-    const description = page.elements.productDescriptionUp.val();
-    const id = page.elements.categoryUp.val();
-    const categoryName = page.elements.categoryUp.find('option:selected').text();
+pageProduct.commands.updateProduct = () => {
+    const productName = pageProduct.elements.productNameUp.val();
+    const price = pageProduct.elements.priceUp.val();
+    const description = pageProduct.elements.productDescriptionUp.val();
+    const id = pageProduct.elements.categoryUp.val();
+    const categoryName = pageProduct.elements.categoryUp.find('option:selected').text();
 
     const categoryUpReqDTO = {
         id,
@@ -196,26 +196,28 @@ page.commands.updateProduct = () => {
         description
     }
 
-    page.elements.btnUpdate.prop("disabled", true);
+    pageProduct.elements.btnUpdate.prop("disabled", true);
 
-    page.elements.loading.removeClass('hide');
+    pageProduct.elements.loading.removeClass('hide');
 
     setTimeout(() => {
         $.ajax(
             {
                 method: 'PATCH',
-                url: page.url.updateProduct + productId,
+                url: pageProduct.url.updateProduct + productId,
                 data: JSON.stringify(product)
             }
         )
             .done((data) => {
-                const str = page.commands.renderProduct(data)
+                const str = pageProduct.commands.renderProduct(data)
                 $("#tr_" + productId).replaceWith(str);
-                // page.elements.bodyProduct.replaceWith(str);
+                // pageProduct.elements.bodyProduct.replaceWith(str);
 
-                page.elements.modalUpdate.modal('hide');
+                pageProduct.elements.modalUpdate.modal('hide');
 
                 AppUtils.showSuccess('Sửa thành công');
+
+                pageProduct.commands.handleClickRow()
 
             })
             .fail((err) => {
@@ -241,52 +243,52 @@ page.commands.updateProduct = () => {
                 }
             })
             .always(() => {
-                page.elements.btnUpdate.prop("disabled", false);
-                page.elements.loading.addClass('hide')
+                pageProduct.elements.btnUpdate.prop("disabled", false);
+                pageProduct.elements.loading.addClass('hide')
             });
     }, 1000);
 }
 
 
-page.commands.handleClickRow = () => {
+pageProduct.commands.handleClickRow = () => {
 
-    page.commands.handleClickEditButton()
+    pageProduct.commands.handleClickEditButton()
 }
 
-page.commands.handleClickEditButton = () => {
+pageProduct.commands.handleClickEditButton = () => {
 
-    page.elements.btnEditElems = $(".edit")
+    pageProduct.elements.btnEditElems = $(".edit")
 
-    page.elements.btnEditElems.off("click");
+    pageProduct.elements.btnEditElems.off("click");
 
-    page.elements.btnEditElems.each((index, item) => {
+    pageProduct.elements.btnEditElems.each((index, item) => {
 
         $(item).on("click", async () => {
 
             productId = item.getAttribute("data-id")
 
-            const product = await page.loadData.getProductById(productId)
+            const product = await pageProduct.loadData.getProductById(productId)
 
-            page.elements.productNameUp.val(product.productName);
-            await page.commands.getAllCategories();
-            await page.elements.categoryUp.val(product.category.id);
-            page.elements.priceUp.val(product.price);
-            page.elements.productDescriptionUp.val(product.description)
+            pageProduct.elements.productNameUp.val(product.productName);
+            await pageProduct.commands.getAllCategories();
+            await pageProduct.elements.categoryUp.val(product.category.id);
+            pageProduct.elements.priceUp.val(product.price);
+            pageProduct.elements.productDescriptionUp.val(product.description)
 
-            page.elements.modalUpdate.modal("show")
+            pageProduct.elements.modalUpdate.modal("show")
         })
     })
 }
 
-page.elements.btnCreate.on('click', async () => {
-    page.elements.frmCreate.trigger('submit')
+pageProduct.elements.btnCreate.on('click', async () => {
+    pageProduct.elements.frmCreate.trigger('submit')
 })
 
-page.elements.btnUpdate.on('click', async () => {
-    page.elements.frmUpdate.trigger('submit')
+pageProduct.elements.btnUpdate.on('click', async () => {
+    pageProduct.elements.frmUpdate.trigger('submit')
 })
 
-page.elements.frmCreate.validate({
+pageProduct.elements.frmCreate.validate({
     onkeyup: function (element) {
         $(element).valid()
     },
@@ -328,11 +330,11 @@ page.elements.frmCreate.validate({
         this.defaultShowErrors();
     },
     submitHandler: () => {
-        page.commands.createProduct()
+        pageProduct.commands.createProduct()
     }
 })
 
-page.elements.frmUpdate.validate({
+pageProduct.elements.frmUpdate.validate({
     onkeyup: function (element) {
         $(element).valid()
     },
@@ -374,27 +376,27 @@ page.elements.frmUpdate.validate({
         this.defaultShowErrors();
     },
     submitHandler: () => {
-        page.commands.updateProduct()
+        pageProduct.commands.updateProduct()
     }
 })
 
-page.elements.modalCreate.on('hidden.bs.modal', async () => {
+pageProduct.elements.modalCreate.on('hidden.bs.modal', async () => {
     $('#modalCreate .area-error').empty().addClass('hide');
     $('#frmCreate').trigger('reset')
     $('#frmCreate input').removeClass('error')
     $('#frmCreate label.error').remove()
 
-    await page.commands.getAllCategories()
+    await pageProduct.commands.getAllCategories()
 
 })
 
-page.elements.modalUpdate.on('hidden.bs.modal', async () => {
+pageProduct.elements.modalUpdate.on('hidden.bs.modal', async () => {
     $('#modalUpdate .area-error').empty().addClass('hide');
     $('#frmUpdate').trigger('reset')
     $('#frmUpdate input').removeClass('error')
     $('#frmUpdate label.error').remove()
 
-    await page.commands.getAllCategories()
+    await pageProduct.commands.getAllCategories()
 
 })
 
@@ -409,8 +411,8 @@ $(async () => {
 
 
 
-    await page.loadData.getAllProducts();
+    await pageProduct.loadData.getAllProducts();
 
-    await page.commands.getAllCategories();
+    await pageProduct.commands.getAllCategories();
 
 })
