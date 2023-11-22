@@ -17,7 +17,7 @@ import java.util.List;
 @Setter
 public class ImportProductReqDTO {
 
-    private LocalDateTime createdAt;
+    private String createdAt;
     private List<ProductImportReqDTO> products;
 
     @Override
