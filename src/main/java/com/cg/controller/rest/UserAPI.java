@@ -32,7 +32,7 @@ public class UserAPI {
     }
 
     @GetMapping
-    public ResponseEntity<Page<UserListResponse>> getRooms(@PageableDefault(size = 5) Pageable pageable,
+    public ResponseEntity<Page<UserListResponse>> getUsers(@PageableDefault(size = 5) Pageable pageable,
                                                            @RequestParam(defaultValue = "") String search) {
         return new ResponseEntity<>(userService.getUsers(pageable, search), HttpStatus.OK);
     }

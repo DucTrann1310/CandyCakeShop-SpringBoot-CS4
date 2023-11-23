@@ -24,6 +24,7 @@ public class UserService {
 
     public void create(UserSaveRequest request){
         var user = AppUtil.mapper.map(request, User.class);
+        user.setRole(new Role(2L, "USER"));
         userRepository.save(user);
     }
 

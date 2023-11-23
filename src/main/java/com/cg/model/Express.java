@@ -1,25 +1,19 @@
 package com.cg.model;
 
+import jakarta.persistence.*;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import jakarta.persistence.*;
-
 @Entity
-@Table(name = "roles")
+@Table(name = "expresss")
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-public class Role {
 
+public class Express {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-
+    private int id;
     private String name;
-
-
+    private String phone;
 }
