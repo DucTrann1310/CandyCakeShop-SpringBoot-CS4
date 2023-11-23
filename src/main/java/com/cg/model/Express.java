@@ -1,6 +1,6 @@
 package com.cg.model;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

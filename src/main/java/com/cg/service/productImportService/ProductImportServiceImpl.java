@@ -8,16 +8,12 @@ import com.cg.model.dto.*;
 import com.cg.repository.ProductImportDetailRepository;
 import com.cg.repository.ProductImportRepository;
 import com.cg.repository.ProductRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-<<<<<<< Updated upstream
-import jakarta.transaction.Transactional;
-import java.time.LocalDateTime;
 
-=======
 import javax.transaction.Transactional;
 import java.sql.Date;
->>>>>>> Stashed changes
 import java.util.List;
 import java.util.Optional;
 
