@@ -12,22 +12,15 @@
                     </div>
                     <form id="frmCreate" method="post">
                         <div class="mb-3">
-                            <label for="code" class="form-label">Import Code</label>
-                            <input type="text" class="form-control" id="code" name="code">
-                        </div>
-                        <div class="mb-3">
                             <label for="importDate" class="form-label">Import Date</label>
                             <input type="date" class="form-control" id="importDate" name="importDate">
                         </div>
                         <div class="row mb-3">
-                            <div class="col-4">
+                            <div class="col-6">
                                 Product
                             </div>
-                            <div class="col-3">
+                            <div class="col-4">
                                 Quantity
-                            </div>
-                            <div class="col-3">
-                                Amount
                             </div>
                             <div class="col-2 d-flex justify-content-end">
                                 <button type="button" class="btn btn-info" id="addMore">Add More</button>
@@ -35,20 +28,15 @@
                         </div>
                         <div id="product-import-detail">
                             <div class="row mb-3" id="product-import-1">
-                                <div class="col-4">
-                                    <select class="form-control product" name="productIds" id="product">
-                                        <option value="">---Please Choose---</option>
-                                    </select>
+                                <div class="col-6">
+                                    <select class="form-control product" name="productIds"></select>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-4">
                                     <input type="number" class="form-control" id="quantities-1" name="quantities">
                                 </div>
-                                <div class="col-3">
-                                    <input type="number" class="form-control" id="amounts-1" name="amounts">
-                                </div>
-                                <div class="col-2 d-flex justify-content-end">
-                                    <button type="button" class="btn btn-danger delete" id="data_1" data-id="1">Delete
-                                    </button>
+                                <div class="col-2 d-flex justify-content-end delete">
+<!--                                    <button type="button" class="btn btn-danger delete" id="data_1" data-id="1">Delete-->
+<!--                                    </button>-->
                                 </div>
                             </div>
                         </div>

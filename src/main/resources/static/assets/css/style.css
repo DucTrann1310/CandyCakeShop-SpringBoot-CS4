@@ -5,6 +5,10 @@
     --dark: #191C24;
 }
 
+#toast-container {
+    z-index: 9999;
+}
+
 .notification p {
     font-weight: 500;
 }

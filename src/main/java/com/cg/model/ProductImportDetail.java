@@ -20,9 +20,8 @@ public class ProductImportDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private BigDecimal price;
 
-    private int quantity;
+    private Long quantity;
 
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     @ManyToOne

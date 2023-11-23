@@ -1,92 +1,94 @@
-const page = {
+const pageProductImport = {
     url: {
         getAllProductImports: 'http://localhost:8080/api/product-imports',
-        getAllProduct: 'http://localhost:8080/api/products'
+        getAllProduct: 'http://localhost:8080/api/products',
+        createProductImport: 'http://localhost:8080/api/product-imports'
     },
     elements: {},
     loadData: {},
     commands: {}
 }
 
-page.elements.bodyProductImport = $("#tbProductImport tbody");
+pageProductImport.elements.loading = $("#loading")
 
-page.elements.product = $(".product")
+pageProductImport.elements.bodyProductImport = $("#tbProductImport tbody");
 
-page.elements.leftSideBarProductImport = $("#left-side-bar-product-import")
+pageProductImport.elements.product = $(".product")
 
-page.elements.leftSideBarActive = $(".active")
+pageProductImport.elements.leftSideBarProductImport = $("#left-side-bar-product-import")
 
-page.elements.leftSideBarActive.removeClass("active")
+pageProductImport.elements.leftSideBarActive = $(".active")
 
-page.elements.leftSideBarProductImport.addClass("active")
+pageProductImport.elements.leftSideBarActive.removeClass("active")
 
-page.elements.modalCreate = $("#modalCreate");
-page.elements.frmCreate = $("#frmCreate");
-page.elements.code = $("#code");
-page.elements.importDate = $("#importDate");
+pageProductImport.elements.leftSideBarProductImport.addClass("active")
 
-page.elements.priceCre = $("#priceCre");
-page.elements.productDescriptionCre = $("#productDescriptionCre");
-page.elements.btnCreate = $("#btnCreate")
-page.elements.productImportDetail = $("#product-import-detail")
-page.elements.addMoreButton = $("#addMore")
-page.elements.eSelect = $('[name="productIds"]');
+pageProductImport.elements.modalCreate = $("#modalCreate");
+pageProductImport.elements.frmCreate = $("#frmCreate");
+pageProductImport.elements.code = $("#code");
+pageProductImport.elements.importDate = $("#importDate");
+
+pageProductImport.elements.priceCre = $("#priceCre");
+pageProductImport.elements.productDescriptionCre = $("#productDescriptionCre");
+pageProductImport.elements.btnCreate = $("#btnCreate")
+pageProductImport.elements.productImportDetail = $("#product-import-detail")
+pageProductImport.elements.addMoreButton = $("#addMore")
+
+pageProductImport.elements.productSelect = $('[name="productIds"]')
+
+let productSelectedArray = pageProductImport.elements.productSelect.map(function() {
+    return $(this).val();
+}).get();
 
 
 let rowProductImport = 1;
 let rowCount = rowProductImport;
+let productsArr = []
 
 async function getAllProductImports() {
     return await $.ajax({
-        url: page.url.getAllProductImports
+        url: pageProductImport.url.getAllProductImports
     })
 }
 
 async function getAllProducts() {
     return await $.ajax({
-        url: page.url.getAllProduct
+        url: pageProductImport.url.getAllProduct
     })
 }
 
 
-page.loadData.getAllProductImports = async () => {
+pageProductImport.loadData.getAllProductImports = async () => {
     const productImports = await getAllProductImports();
 
     productImports.forEach(item => {
-        const str = page.commands.renderProductImport(item)
+        const str = pageProductImport.commands.renderProductImport(item)
 
-        page.elements.bodyProductImport.prepend(str);
+        pageProductImport.elements.bodyProductImport.prepend(str);
 
-        // page.commands.handleClickRow();
+        // pageProductImport.commands.handleClickRow();
     })
 }
 
 
-page.commands.getAllProduct = async (elem) => {
-    $(elem).empty();
+pageProductImport.commands.getAllProduct =  async () => {
 
-    $.ajax({
-        url: page.url.getAllProduct
+     await $.ajax({
+        url: pageProductImport.url.getAllProduct
     })
         .done((data) => {
+            productsArr = data;
 
-            const str = `<option value="">---Please Choose---</option>`
+            pageProductImport.commands.InitProductOption()
 
-            page.elements.product.append(str)
-
-            $.each(data, (index, item) => {
-                const str = `<option value="${item.id}">${item.productName}</option>`
-
-                page.elements.product.append(str)
-            })
         })
 }
 
-page.commands.renderProductImport = (obj) => {
+pageProductImport.commands.renderProductImport = (obj) => {
     return `
         <tr id="tr_${obj.id}">
             <td>${obj.code}</td>
-            <td>${obj.createAt}</td>
+            <td>${obj.createdAt}</td>
             <td>${obj.products}</td>
             <td>${obj.total}</td>
             <td>
@@ -103,115 +105,310 @@ page.commands.renderProductImport = (obj) => {
     `
 }
 
-page.commands.handleClickRow = () => {
+pageProductImport.commands.handleClickRow = () => {
 
-    page.commands.handleClickEditButton()
+    pageProductImport.commands.handleClickEditButton()
 }
 
-page.commands.handleClickEditButton = () => {
+pageProductImport.commands.handleClickEditButton = () => {
 
-    page.elements.btnEditElems = $(".edit")
+    pageProductImport.elements.btnEditElems = $(".edit")
 
-    page.elements.btnEditElems.off("click");
+    pageProductImport.elements.btnEditElems.off("click");
 
-    page.elements.btnEditElems.each((index, item) => {
+    pageProductImport.elements.btnEditElems.each((index, item) => {
 
         $(item).on("click", async () => {
 
             productId = item.getAttribute("data-id")
 
-            const product = await page.loadData.getProductById(productId)
+            const product = await pageProductImport.loadData.getProductById(productId)
 
-            page.elements.productNameUp.val(product.productName);
-            await page.commands.getAllCategories();
-            await page.elements.categoryUp.val(product.category.id);
-            page.elements.priceUp.val(product.price);
-            page.elements.productDescriptionUp.val(product.description)
+            pageProductImport.elements.productNameUp.val(product.productName);
+            await pageProductImport.commands.getAllCategories();
+            await pageProductImport.elements.categoryUp.val(product.category.id);
+            pageProductImport.elements.priceUp.val(product.price);
+            pageProductImport.elements.productDescriptionUp.val(product.description)
 
-            page.elements.modalUpdate.modal("show")
+            pageProductImport.elements.modalUpdate.modal("show")
         })
     })
 }
 
-page.commands.addMore = () => {
+pageProductImport.commands.InitProductOption = () => {
+    const str = `<option value="">---Please Choose---</option>`
 
-    page.elements.addMoreButton.on("click", () => {
+    $('#product-import-detail .row .product').append(str)
 
-        $.ajax({
-            url: page.url.getAllProduct
+    $.each(productsArr, (index, item) => {
+        const str = `<option value="${item.id}">${item.productName}</option>`
+
+        $('#product-import-detail .row .product').append(str)
+    })
+}
+
+pageProductImport.commands.addMore = () => {
+
+
+    pageProductImport.elements.addMoreButton.on("click", () => {
+
+        if($('#product-import-detail .row .product').length > productsArr.length){
+            AppUtils.showError("Đã chọn tối ta sản phẩm hiện có")
+            return
+        }
+
+        let selectStr = '<select class="form-control product" name="productIds" >';
+
+        selectStr += '</select>';
+
+        const strRow = `
+            <div class="row mb-3" id="product-import-${++rowProductImport}">
+                <div class="col-6">
+                    ${selectStr}
+                </div>
+                <div class="col-4">
+                    <input type="number" class="form-control" id="quantities-${rowProductImport}" name="quantities">
+                </div>
+                <div class="col-2 d-flex justify-content-end delete">
+                </div>
+            </div>
+        `
+
+
+        pageProductImport.elements.productImportDetail.append(strRow)
+
+        const countElem = $('#product-import-detail .row .product').length - 1;
+        console.log(countElem)
+
+        const str = `<option value="">---Please Choose---</option>`
+        $($('#product-import-detail .row .product')[countElem]).append(str)
+
+        $.each(productsArr, (index, item) => {
+            const str = `<option value="${item.id}">${item.productName}</option>`
+            $($('#product-import-detail .row .product')[countElem]).append(str)
         })
-            .done((data) => {
-                if (rowCount === data.length) {
 
-                    AppUtils.showError("Số loại sản phẩm nhập vào tối đa")
-                    return
-                }
+        pageProductImport.commands.handleOnHoverProductImport();
 
-                rowCount++;
+        pageProductImport.commands.handleProductSelected()
 
-                let selectStr = '<select class="form-control product" name="productIds" id="product" >';
-
-                selectStr += '</select>';
-
-
-                const strRow = `<div class="row mb-3" id="product-import-${++rowProductImport}">
-            <div class="col-4">
-                ${selectStr}
-            </div>
-            <div class="col-3">
-                <input type="number" class="form-control" id="quantities-${rowProductImport}" name="quantities">
-            </div>
-            <div class="col-3">
-                <input type="number" class="form-control" id="amounts" name="amounts">
-            </div>
-            <div class="col-2 d-flex justify-content-end">
-                <button class="btn btn-danger delete" id="data_${rowProductImport}" data-id="${rowProductImport}">Delete</button>
-            </div>
-        </div>`
-
-                page.elements.productImportDetail.append(strRow)
-
-                page.elements.product = $(".product")
-
-                page.commands.getAllProduct(page.elements.product)
-
-                page.commands.deleteRow()
-            })
 
     })
 }
 
-page.commands.deleteRow = () => {
+// pageProductImport.commands.deleteRow = () => {
+//
+//     pageProductImport.elements.btnDelete = $(".delete")
+//
+//     pageProductImport.elements.btnDelete.off("click")
+//
+//     pageProductImport.elements.btnDelete.each((index, item) => {
+//
+//         $(item).on("click", () => {
+//
+//             if (rowCount === 1) {
+//                 AppUtils.showError("Phải có ít nhất 1 sản phẩm")
+//                 return
+//             }
+//
+//             rowCount--;
+//
+//             const rowNumber = item.getAttribute("data-id")
+//
+//             const divNumber = $('#product-import-' + rowNumber);
+//
+//             divNumber.remove()
+//
+//             // pageProductImport.elements.btnDelete = $(".delete")
+//         })
+//     })
+//
+// }
 
-    page.elements.btnDelete = $(".delete")
+pageProductImport.commands.handleProductSelected = () => {
 
-    page.elements.btnDelete.off("click")
+    pageProductImport.elements.productSelect = $('[name="productIds"]')
 
-    page.elements.btnDelete.each((index, item) => {
+    let productSelectedArray = pageProductImport.elements.productSelect.map(function() {
+        return $(this).val();
+    }).get();
 
-        $(item).on("click", () => {
+    pageProductImport.elements.productSelect.on("change", function (){
+        if(productSelectedArray.find(id => +id === +$(this).val())){
+            $(this).val("");
 
-            if (rowCount === 1) {
-                AppUtils.showError("Phải có ít nhất 1 sản phẩm")
-                return
+            AppUtils.showError("Vui lòng không chọn trùng sản phẩm")
+        }
+
+        productSelectedArray = pageProductImport.elements.productSelect.map(function() {
+            return $(this).val();
+        }).get();
+
+    })
+}
+
+
+pageProductImport.commands.handleOnHoverProductImport = () => {
+    $('#product-import-detail .row div.delete').empty();
+
+    let elem;
+    $('#product-import-detail .row').hover(function()  {
+        const str = `
+            <button type="button" class="btn btn-danger delete" data-id="1">
+                Delete
+            </button>`
+
+        elem = $(this).find('div.delete');
+
+        if ($('#product-import-detail .row').length > 1) {
+            $(elem).empty().append(str)
+        }
+    })
+
+    $('#product-import-detail .row').on( "mouseleave", function () {
+        $('#product-import-detail .row div.delete').empty();
+    });
+}
+
+pageProductImport.commands.handleAddEventDeleteButton = () => {
+    pageProductImport.elements.productImportDetail.on('click', 'button.delete', function () {
+        $(this).parent().parent().remove()
+    })
+}
+
+pageProductImport.elements.btnCreate.on('click', async () => {
+    pageProductImport.elements.frmCreate.trigger('submit')
+})
+
+pageProductImport.elements.frmCreate.validate({
+    onkeyup: function (element) {
+        $(element).valid()
+    },
+    onclick: false,
+    onfocusout: false,
+    rules: {
+        importDate: {
+            required: true,
+            date: true,
+            customMaxDate: true
+        },
+        productIds: {
+            required: true
+        }
+    },
+    messages: {
+        importDate: {
+            required: "Vui chọn ngày nhập hàng",
+            date: "Ngày nhập hàng không hợp lệ",
+        },
+        productIds: {
+            required: "Vui lòng chọn ít nhất một sản phẩm"
+        }
+    },
+    errorLabelContainer: "#modalCreate .area-error",
+    errorPlacement: function (error, element) {
+        error.appendTo("#modalCreate .area-error");
+    },
+    showErrors: function (errorMap, errorList) {
+        if (this.numberOfInvalids() > 0) {
+            $("#modalCreate .area-error").removeClass("hide").addClass("show");
+        } else {
+            $("#modalCreate .area-error").removeClass("show").addClass("hide").empty();
+            $("#frmCreate input.error").removeClass("error");
+        }
+        this.defaultShowErrors();
+    },
+    submitHandler: () => {
+        pageProductImport.commands.createProductImport()
+    }
+})
+
+pageProductImport.commands.createProductImport = () => {
+    const products = []
+
+    for (let i = 0; i < $('[name="productIds"]').length; i++) {
+
+        const id = $('[name="productIds"]').eq(i).find('option:selected').val();
+
+        const quantity = $('[name="productIds"]').eq(i).val();
+
+        const product = {
+            id,
+            quantity
+        };
+        products.push(product);
+    }
+
+
+    const createdAt = pageProductImport.elements.importDate
+
+    const importProduct = {
+        createdAt,
+        products
+    }
+
+    pageProductImport.elements.btnCreate.prop("disabled", true);
+
+    pageProductImport.elements.loading.removeClass('hide');
+
+    setTimeout(() => {
+        $.ajax(
+            {
+                method: 'POST',
+                url: pageProductImport.url.createProductImport,
+                data: JSON.stringify(importProduct)
             }
+        )
+            .done((data) => {
+                const str = pageProductImport.commands.renderProductImport(data)
 
-            rowCount--;
+                pageProductImport.elements.bodyProduct.prepend(str);
 
-            const rowNumber = item.getAttribute("data-id")
+                pageProductImport.elements.modalCreate.modal('hide');
 
-            const divNumber = $('#product-import-' + rowNumber);
+                AppUtils.showSuccess('Thêm mới thành công');
 
-            divNumber.remove()
+            })
+            .fail((err) => {
+                const responseJSON = err.responseJSON
 
-            page.elements.btnDelete = $(".delete")
-        })
-    })
+                if (responseJSON) {
+                    let str = '<ul>'
+                    $.each(responseJSON, (k, v) => {
+                        if (k.includes('.')) {
+                            str += `<li><label for="${k.split('.')[1] + 'Cre'}">${v}</label></li>`
+                        } else {
+                            str += `<li><label for="${k + 'Cre'}">${v}</label></li>`
+                        }
 
+                    })
+
+                    str += '</ul>'
+
+                    // $('.area-error').append(str).removeClass('hide').css('display', '')
+                    $('#modalCreate .area-error').append(str).removeClass('hide').css('display', '')
+
+                    AppUtils.showError("Thêm mới thất bại")
+                }
+            })
+            .always(() => {
+                pageProductImport.elements.btnCreate.prop("disabled", false);
+                pageProductImport.elements.loading.addClass('hide')
+            });
+    }, 1000);
 }
+$.validator.addMethod(
+    "customMaxDate",
+    function (value, element) {
+        var currentDate = new Date();
+        var inputDate = new Date(value);
 
+        return inputDate <= currentDate;
+    },
+    "Ngày không được lớn hơn ngày hiện tại"
+);
 
-page.elements.modalCreate.on('hidden.bs.modal', async () => {
+pageProductImport.elements.modalCreate.on('hidden.bs.modal', async () => {
     $('#modalCreate .area-error').empty().addClass('hide');
     $('#frmCreate').trigger('reset')
     $('#frmCreate input').removeClass('error')
@@ -219,34 +416,31 @@ page.elements.modalCreate.on('hidden.bs.modal', async () => {
 
 
     const str = `
-                            <div class="row mb-3" id="product-import-1">
-                                <div class="col-4">
-                                    <select class="form-control product" name="productIds" id="product">
-                                        <option value="">---Please Choose---</option>
-                                    </select>
-                                </div>
-                                <div class="col-3">
-                                    <input type="number" class="form-control" id="quantities-1" name="quantities">
-                                </div>
-                                <div class="col-3">
-                                    <input type="number" class="form-control" id="amounts-1" name="amounts">
-                                </div>
-                                <div class="col-2 d-flex justify-content-end">
-                                    <button type="button" class="btn btn-danger delete" id="data_1" data-id="1">Delete
-                                    </button>
-                                </div>
-                            </div>
-                        `
-    page.elements.productImportDetail.html(str)
+        <div class="row mb-3" id="product-import-1">
+            <div class="col-6">
+                <select class="form-control product" name="productIds" id="product">
+                </select>
+            </div>
+            <div class="col-4">
+                <input type="number" class="form-control" id="quantities-1" name="quantities">
+            </div>
+            <div class="col-2 d-flex justify-content-end delete">
+            </div>
+        </div>
+    `
+    pageProductImport.elements.productImportDetail.html(str)
+
+    pageProductImport.commands.handleOnHoverProductImport();
+
+    pageProductImport.commands.handleAddEventDeleteButton()
 
     rowProductImport = 1
 
     rowCount = rowProductImport
 
-    await page.commands.getAllProduct()
+    await pageProductImport.commands.getAllProduct()
 
 })
-
 
 $.ajaxSetup({
     headers: {
@@ -257,11 +451,15 @@ $.ajaxSetup({
 $(async () => {
 
 
-    await page.loadData.getAllProductImports()
+    pageProductImport.loadData.getAllProductImports()
 
-    await page.commands.getAllProduct(page.elements.product)
+    pageProductImport.commands.getAllProduct()
 
-    page.commands.addMore();
+    pageProductImport.commands.addMore();
 
-    page.commands.deleteRow()
+    pageProductImport.commands.handleOnHoverProductImport();
+
+    pageProductImport.commands.handleAddEventDeleteButton()
+
+
 })
