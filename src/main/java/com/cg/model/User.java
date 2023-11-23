@@ -1,10 +1,11 @@
 package com.cg.model;
 
-import com.cg.model.enums.EGender;
-import javax.persistence.*;
+
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import jakarta.persistence.*;
 import java.sql.Date;
 
 @Entity

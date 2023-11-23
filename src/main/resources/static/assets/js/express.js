@@ -1,12 +1,11 @@
-const userForm = document.getElementById('userForm');
-let userSelected = {};
+const expressForm = document.getElementById('expressForm');
+let expressSelected = {};
 const formBody = document.getElementById('formBody');
 const tBody = document.getElementById('tBody');
 const ePagination = document.getElementById('pagination')
 const eSearch = document.getElementById('search')
-let roles;
-let genders;
-let users = [];
+
+let expresss = [];
 
 let pageable = {
     page: 1,
@@ -14,25 +13,20 @@ let pageable = {
     search: ''
 }
 
-userForm.onsubmit = async (e) => {
+expressForm.onsubmit = async (e) => {
     e.preventDefault();
-    let data = getDataFromForm(userForm);
+    let data = getDataFromForm(expressForm);
     console.log(data)
     data = {
         ...data,
-        role: {
-            id: data.role
-        },
-        gender: {
-            id: data.gender
-        },
-        id: userSelected.id
+
+        id: expressSelected.id
     }
     console.log(data)
 
     let message = "Created"
-    if (userSelected.id) {
-        await editUser(data);
+    if (expressSelected.id) {
+        await editExpress(data);
         webToast.Success({
             status: 'Sửa thành công',
             message: '',
@@ -40,7 +34,7 @@ userForm.onsubmit = async (e) => {
             align: 'topright'
         });
     } else {
-        await createUser(data)
+        await createExpress(data)
         webToast.Success({
             status: 'Thêm thành công',
             message: '',
@@ -59,33 +53,12 @@ function getDataFromForm(form) {
     return Object.fromEntries(data.entries())
 }
 
-async function getRolesSelectOption() {
-    const res = await fetch('api/roles');
-    return await res.json();
-}
-
-async function getGendersSelectOption() {
-    const res = await fetch('api/genders');
-    return await res.json();
-}
-
 window.onload = async () => {
-    roles = await getRolesSelectOption();
-    genders = await getGendersSelectOption();
     await renderTable();
     // onLoadSort();
 
     renderForm(formBody, getDataInput());
 }
-//
-// $(async () => {
-//     roles = await getRolesSelectOption();
-//     genders = await getGendersSelectOption();
-//     await renderTable();
-//     // onLoadSort();
-//
-//     // renderForm(formBody, getDataInput());
-// })
 
 
 function getDataInput() {
@@ -93,90 +66,38 @@ function getDataInput() {
         {
             label: 'Full Name',
             name: 'name',
-            value: userSelected.name,
+            value: expressSelected.name,
             required: true,
             pattern: "^[A-Za-z ]{6,20}",
             message: "Fullname must have minimum is 6 characters and maximum is 20 characters",
         },
         {
-            label: 'User Name',
-            name: 'username',
-            value: userSelected.username,
-            required: true,
-            pattern: "^[A-Za-z ]{6,20}",
-            message: "Username must have minimum is 6 characters and maximum is 20 characters",
-        },
-        {
-            label: 'Password',
-            name: 'password',
-            value: userSelected.password,
-            pattern: "^[A-Za-z ]{6,20}",
-            message: "Password must have minimum is 6 characters and maximum is 20 characters",
-            required: true
-        },
-        {
             label: 'Phone',
             name: 'phone',
-            value: userSelected.phone,
+            value: expressSelected.phone,
             pattern: "[0-9]{10}",
             message: 'Phone errors.Phone input 10 characters',
             required: true
-        },
-        {
-            label: 'Address',
-            name: 'address',
-            value: userSelected.address,
-            pattern: "^[A-Za-z0-9 ]{6,50}",
-            message: "address must have minimum is 6 characters and maximum is 50 characters",
-            required: true
-        },
-        {
-            label: 'Date Of birth',
-            name: 'dob',
-            value: userSelected.dob,
-            pattern: "^\\d{4}-\\d{2}-\\d{2}$",
-            message: "dob errors",
-            required: true
-        },
-        // {
-        //     label: 'Role',
-        //     name: 'role',
-        //     value: userSelected.roleId,
-        //     type: 'select',
-        //     required: true,
-        //     options: roles,
-        //     message: 'Please choose role',
-        //
-        // },
-        {
-            label: 'Gender',
-            name: 'gender',
-            value: userSelected.genderId,
-            type: 'select',
-            required: true,
-            options: genders,
-            message: 'Please choose gender'
         },
     ];
 }
 
 
-async function findUserById(id) {
-    const res = await fetch('/api/users/' + id);
+async function findExpressById(id) {
+    const res = await fetch('/api/expresss/' + id);
     return await res.json();
 }
 
-
 async function showEdit(id) {
-    $('#staticBackdropLabel').text('Edit User');
+    $('#staticBackdropLabel').text('Edit Express');
     clearForm();
-    userSelected = await findUserById(id);
+    expressSelected = await findExpressById(id);
     renderForm(formBody, getDataInput());
 }
 
 
-async function getUsers() {
-    const res = await fetch('/api/users');
+async function getExpresss() {
+    const res = await fetch('/api/expresss');
     return await res.json();
 }
 
@@ -189,23 +110,10 @@ function renderItemStr(item) {
                         ${item.name}
                     </td>  
                     <td>
-                        ${item.username}
-                    </td>
-                    <td>
                         ${item.phone}
                     </td>
                     <td>
-                        ${item.address}
-                    </td>
-                    <td>
-                        ${item.dob}
-                    </td>
-                    <td>
-                        ${item.gender}
-                    </td>     
-                    <td>
                         <a class="btn btn-primary text-white  edit " data-id="${item.id}" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Edit</a>                    
-
                     </td>
                 </tr>`
 }
@@ -219,7 +127,7 @@ function renderTBody(items) {
 }
 
 async function renderTable() {
-    const response = await fetch(`/api/users?page=${pageable.page - 1 || 0}&sort=${pageable.sortCustom || 'id,desc'}&search=${pageable.search || ''}`);
+    const response = await fetch(`/api/expresss?page=${pageable.page - 1 || 0}&sort=${pageable.sortCustom || 'id,desc'}&search=${pageable.search || ''}`);
     // const pageable = await getRooms();
     // rooms = pageable.content;
     // renderTBody(rooms);
@@ -328,18 +236,18 @@ const addEventEditAndDelete = () => {
 }
 
 function clearForm() {
-    userForm.reset();
-    userSelected = {};
+    expressForm.reset();
+    expressSelected = {};
 }
 
 function showCreate() {
-    $('#staticBackdropLabel').text('Create User');
+    $('#staticBackdropLabel').text('Create Express');
     clearForm();
     renderForm(formBody, getDataInput())
 }
 
-async function editUser(data) {
-    const res = await fetch('/api/users/' + data.id, {
+async function editExpress(data) {
+    const res = await fetch('/api/expresss/' + data.id, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -348,8 +256,8 @@ async function editUser(data) {
     })
 }
 
-async function createUser(data) {
-    const res = await fetch('/api/users', {
+async function createExpress(data) {
+    const res = await fetch('/api/expresss', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

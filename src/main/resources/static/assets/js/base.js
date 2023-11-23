@@ -1,16 +1,30 @@
 
 
+// function createInput(props) {
+//     return `<div class="${props.classContainer || ''}">
+//                 <label class="${props.classLabel || ''} form-label">${props.label}</label>
+//                 <input class="input-custom form-control ${props.classInput || ''}"
+//                 type="${props.type || 'text'}" name="${props.name}"
+//                 ${props.pattern ? `pattern="${props.pattern}"` : ""}
+//                 value="${props.value || ''}"
+//                 ${props.required ? 'required' : ''}
+//                 />
+//                 <span class="error form-text ${props.classError}">${props.message}</span>
+//             </div>`
+// }
+
 function createInput(props) {
-    return `<div class="${props.classContainer || ''}">
-                <label class="${props.classLabel || ''} form-label">${props.label}</label>
-                <input class="input-custom form-control ${props.classInput || ''}" 
-                type="${props.type || 'text'}" name="${props.name}"
-                ${props.pattern ? `pattern="${props.pattern}"` : ""} 
-                value="${props.value || ''}"
-                ${props.required ? 'required' : ''} 
+    return `<div class="form-group ${props.classContainer || ''}">
+                <label class="${props.classLabel || ''}form-label">${props.label}</label>
+                <input class="input-custom form-control ${props.classInput || ''}"
+                    type="${props.type || 'text'}" 
+                    name="${props.name}"
+                    ${props.pattern ? `pattern="${props.pattern}"` : ""} 
+                    value="${props.value || ''}"
+                    ${props.required ? 'required' : ''}
                 />
-                <span class="error form-text ${props.classError}">${props.message}</span>
-            </div>`
+                <span class="error form-text ${props.classError}">${props.message}</span> 
+            </div>`;
 }
 
 function createSelect(props) {
