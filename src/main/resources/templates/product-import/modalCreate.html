@@ -3,7 +3,7 @@
         <div class="modal-dialog modal-xl modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5">Create Product</h1>
+                    <h1 class="modal-title fs-5">Create Product Import</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -12,8 +12,8 @@
                     </div>
                     <form id="frmCreate" method="post">
                         <div class="mb-3">
-                            <label for="importDate" class="form-label">Import Date</label>
-                            <input type="date" class="form-control" id="importDate" name="importDate">
+                            <label for="importDateCre" class="form-label">Import Date</label>
+                            <input type="date" class="form-control" id="importDateCre" name="importDateCre">
                         </div>
                         <div class="row mb-3">
                             <div class="col-6">
@@ -26,13 +26,13 @@
                                 <button type="button" class="btn btn-info" id="addMore">Add More</button>
                             </div>
                         </div>
-                        <div id="product-import-detail">
+                        <div id="product-import-detail-Cre">
                             <div class="row mb-3" id="product-import-1">
                                 <div class="col-6">
-                                    <select class="form-control product" name="productIds"></select>
+                                    <select class="form-control product" name="productIdsCre"></select>
                                 </div>
                                 <div class="col-4">
-                                    <input type="number" class="form-control" id="quantities-1" name="quantities">
+                                    <input type="number" class="form-control" id="quantities-1" name="quantitiesCre">
                                 </div>
                                 <div class="col-2 d-flex justify-content-end delete">
 <!--                                    <button type="button" class="btn btn-danger delete" id="data_1" data-id="1">Delete-->

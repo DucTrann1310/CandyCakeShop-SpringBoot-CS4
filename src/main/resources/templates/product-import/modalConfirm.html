@@ -1,0 +1,42 @@
+<th:block th:fragment="modalConfirm">
+    <div class="modal fade" id="modalConfirm" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Confirm Product Import</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="area-error hide">
+
+                    </div>
+                    <form id="frmConfirm" method="post">
+                        <div class="mb-3">
+                            <label for="importDateConf" class="form-label">Import Date</label>
+                            <input type="date" class="form-control" id="importDateConf" name="importDateConf" readonly>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-7">
+                                Product
+                            </div>
+                            <div class="col-5">
+                                Quantity
+                            </div>
+                        </div>
+                        <div id="product-import-detail-Conf">
+                        </div>
+                    </form>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-outline-danger" id="btnCancel" >Cancel</button>
+                    <button type="submit" class="btn btn-outline-info" id="btnConfirm">
+                        <i class="fas fa-pencil"></i>
+                        Confirm
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>

@@ -1,9 +1,12 @@
 package com.cg.repository;
 
 import com.cg.model.ProductImport;
-import com.cg.model.dto.ProductImportListResDTO;
+import com.cg.model.dto.ImportProductResDTO;
+import com.cg.model.dto.ProductImportDetailResDTO;
+import com.cg.model.dto.ProductImportResDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,10 +17,9 @@ public interface ProductImportRepository extends JpaRepository<ProductImport, Lo
     @Query(value =
             "SELECT " +
                 "pi.id, " +
-                "pi.code, " +
-                "pi.created_at AS createdAt, " +
-                "GROUP_CONCAT(p.product_name) AS products, " +
-                "pi.total " +
+                "pi.import_date AS importDate, " +
+                "GROUP_CONCAT(p.product_name) AS products," +
+                "pi.confirm " +
             "FROM product_imports pi " +
             "LEFT JOIN product_import_details pid " +
             "ON pi.id = pid.product_import_id " +
@@ -27,5 +29,63 @@ public interface ProductImportRepository extends JpaRepository<ProductImport, Lo
             "ORDER BY pi.id",
             nativeQuery = true
     )
-    List<ProductImportListResDTO> findAllProductImportResDTO();
+    List<ProductImportResDTO> findAllProductImportResDTO();
+
+    @Query("SELECT new com.cg.model.dto.ProductImportDetailResDTO (" +
+            "pid.product, " +
+            "pid.quantity " +
+            ") " +
+            "FROM ProductImportDetail as pid " +
+            "WHERE pid.productImport.id = :product_import_id"
+    )
+    List<ProductImportDetailResDTO> findProductImportDetailUpReqDTOByProductImportId(@Param("product_import_id") Long product_import_id);
+
+    @Query("SELECT new com.cg.model.dto.ImportProductResDTO ( " +
+            "pi.id, " +
+            "pi.importDate, " +
+            "pi.confirm " +
+            ") " +
+            "FROM ProductImport as pi " +
+            "WHERE pi.id = :product_import_id"
+    )
+    ImportProductResDTO findImportProductUpReqDTOByProductImportId(@Param("product_import_id") Long product_import_id);
+
+
+    @Query(value =
+            "SELECT " +
+                    "pi.id, " +
+                    "pi.import_date AS importDate, " +
+                    "GROUP_CONCAT(p.product_name) AS products," +
+                    "pi.confirm " +
+            "FROM product_imports pi " +
+            "LEFT JOIN product_import_details pid " +
+            "ON pi.id = pid.product_import_id " +
+            "LEFT JOIN products p " +
+            "ON p.id = pid.product_id " +
+            "GROUP BY pi.id " +
+            "HAVING pi.id = (" +
+                            "SELECT " +
+                            "Max(id) " +
+                            "FROM product_imports" +
+                            ")",
+            nativeQuery = true
+    )
+    ProductImportResDTO findProductImportResDTOByMaxId();
+
+    @Query(value =
+            "SELECT " +
+                    "pi.id, " +
+                    "pi.import_date AS importDate, " +
+                    "GROUP_CONCAT(p.product_name) AS products," +
+                    "pi.confirm " +
+            "FROM product_imports pi " +
+            "LEFT JOIN product_import_details pid " +
+            "ON pi.id = pid.product_import_id " +
+            "LEFT JOIN products p " +
+            "ON p.id = pid.product_id " +
+            "WHERE pi.id = :product_import_id" +
+            "GROUP BY pi.id ",
+            nativeQuery = true
+    )
+    ProductImportResDTO findProductImportResDTOByProducImportId(@Param("product_import_id") Long product_import_id);
 }

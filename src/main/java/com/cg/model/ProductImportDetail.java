@@ -18,8 +18,7 @@ public class ProductImportDetail {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
+    private Long id;
 
     private Long quantity;
 
