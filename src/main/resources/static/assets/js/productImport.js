@@ -4,7 +4,8 @@ const pageProductImport = {
         getAllProduct: 'http://localhost:8080/api/products',
         createProductImport: 'http://localhost:8080/api/product-imports',
         getProductImportDetailByProductImportId: 'http://localhost:8080/api/product-imports/',
-        confirmProductImport: 'http://localhost:8080/api/product-imports/'
+        confirmProductImport: 'http://localhost:8080/api/product-imports/',
+        cancelProductImport: 'http://localhost:8080/api/product-imports/cancel/'
     },
     elements: {},
     loadData: {},
@@ -40,7 +41,13 @@ pageProductImport.elements.importDateConf = $("#importDateConf")
 pageProductImport.elements.btnConfirm = $("#btnConfirm")
 pageProductImport.elements.btnCancel = $("#btnCancel")
 
-let productSelectedArrayCre = pageProductImport.elements.productSelectCre.map(function() {
+
+pageProductImport.elements.modalDetail = $("#modalDetail")
+pageProductImport.elements.productImportDetailDet = $("#product-import-detail-Det")
+pageProductImport.elements.importDateDet = $("#importDateDet")
+
+
+let productSelectedArrayCre = pageProductImport.elements.productSelectCre.map(function () {
     return $(this).val();
 }).get();
 
@@ -76,16 +83,16 @@ pageProductImport.loadData.getAllProductImports = async () => {
     })
 }
 
-pageProductImport.commands.getAllProductImportDetailById =  async (productImportId) => {
-     return await  $.ajax({
+pageProductImport.commands.getAllProductImportDetailById = async (productImportId) => {
+    return await $.ajax({
         url: pageProductImport.url.getProductImportDetailByProductImportId + productImportId
     })
 }
 
 
-pageProductImport.commands.getAllProduct =  async () => {
+pageProductImport.commands.getAllProduct = async () => {
 
-     await $.ajax({
+    await $.ajax({
         url: pageProductImport.url.getAllProduct
     })
         .done((data) => {
@@ -99,18 +106,19 @@ pageProductImport.commands.getAllProduct =  async () => {
 pageProductImport.commands.renderProductImport = (obj) => {
     return `
         <tr id="tr_${obj.id}">
+            <td>${obj.id}</td>
             <td>${obj.importDate}</td>
             <td>${obj.products}</td>
             <td>
-            ${!obj.confirm ? 
-                `<button class="btn btn-outline-info confirm" data-id="${obj.id}">
-                    <i class="far fa-edit"></i>
-                    Confirm
-                </button>` :    
-                `<button class="btn btn-outline-secondary detail" data-id="${obj.id}">
-                    <i class="fa-solid fa-circle-info"></i>
-                    Detail
-                </button>`}
+            ${!obj.confirm ?
+                    `<button class="btn btn-outline-info confirm" data-id="${obj.id}">
+                            <i class="far fa-edit"></i>
+                            Confirm
+                    </button>` :
+                    `<button class="btn btn-outline-secondary detail" data-id="${obj.id}">
+                            <i class="fa-solid fa-circle-info"></i>
+                            Detail
+                    </button>`}
             </td>
         </tr>
     `
@@ -118,7 +126,9 @@ pageProductImport.commands.renderProductImport = (obj) => {
 
 pageProductImport.commands.handleClickRow = async () => {
 
-   await pageProductImport.commands.handleClickConfirmButton()
+    await pageProductImport.commands.handleClickConfirmButton()
+
+    await pageProductImport.commands.handleClickDetailButton()
 
     // pageProductImport.commands.handleClickDetailButton()
 }
@@ -129,24 +139,22 @@ pageProductImport.commands.handleClickConfirmButton = async () => {
 
     pageProductImport.elements.btnConfirmElems.off("click");
 
-    pageProductImport.elements.btnConfirmElems.each( (index, item) => {
+    pageProductImport.elements.btnConfirmElems.on("click", async function () {
 
-        $(item).on("click", async () => {
+        // $(item).on("click", async () => {
+        productImportId = +$(this).attr("data-id")
 
-            productImportId = item.getAttribute("data-id")
+        productImport = await pageProductImport.commands.getAllProductImportDetailById(productImportId)
 
-            productImport = await pageProductImport.commands.getAllProductImportDetailById(productImportId)
-
-            console.log(productImport)
-            rowProductImport = 0;
+        rowProductImport = 0;
 
 
-            $.each(productImport.productImportDetailResDTOS, (index, item) => {
-                let selectStr = `<select class="form-control product" name="productIdsConf">` +
-                    `<option value="${item.product.id}">${item.product.productName}</option>` +
-                    `</select>`;
+        $.each(productImport.productImportDetailResDTOS, (index, item) => {
+            let selectStr = `<select class="form-control product" name="productIdsConf">` +
+                `<option value="${item.product.id}">${item.product.productName}</option>` +
+                `</select>`;
 
-                const strRow = `
+            const strRow = `
                     <div class="row mb-3" id="product-import-${++rowProductImport}">
                       <div class="col-7">
                         ${selectStr}
@@ -158,21 +166,66 @@ pageProductImport.commands.handleClickConfirmButton = async () => {
                     </div>
                   `;
 
-                pageProductImport.elements.productImportDetailConf.append(strRow);
-            });
+            pageProductImport.elements.productImportDetailConf.append(strRow);
+        });
 
-            pageProductImport.elements.importDateConf.val(productImport.importDate)
+        pageProductImport.elements.importDateConf.val(productImport.importDate)
 
 
-            pageProductImport.elements.modalConfirm.modal("show")
-        })
+        pageProductImport.elements.modalConfirm.modal("show")
+        // })
     })
 
-    await pageProductImport.commands.confirmProductImport()
+    // await pageProductImport.commands.confirmProductImport()
+}
+
+pageProductImport.commands.handleClickDetailButton = async () => {
+
+
+    pageProductImport.elements.btnDetailElems = $(".detail")
+
+    pageProductImport.elements.btnDetailElems.off("click");
+
+    pageProductImport.elements.btnDetailElems.on("click", async function () {
+
+        // $(item).on("click", async () => {
+        productImportId = +$(this).attr("data-id")
+
+        productImport = await pageProductImport.commands.getAllProductImportDetailById(productImportId)
+
+        rowProductImport = 0;
+
+
+        $.each(productImport.productImportDetailResDTOS, (index, item) => {
+            let selectStr = `<select class="form-control product" name="productIdsDet">` +
+                `<option value="${item.product.id}">${item.product.productName}</option>` +
+                `</select>`;
+
+            const strRow = `
+                    <div class="row mb-3" id="product-import-${++rowProductImport}">
+                      <div class="col-7">
+                        ${selectStr}
+                      </div>
+                      <div class="col-5">
+                        <input type="number" class="form-control" id="quantities-${rowProductImport}" name="quantitiesDetf"
+                          value="${item.quantity}" readonly>
+                      </div>
+                    </div>
+                  `;
+
+            pageProductImport.elements.productImportDetailDet.append(strRow);
+        });
+
+        pageProductImport.elements.importDateDet.val(productImport.importDate)
+
+
+        pageProductImport.elements.modalDetail.modal("show")
+        // })
+    })
 }
 
 pageProductImport.commands.InitProductOption = () => {
-    const str = `<option value="">---Please Choose---</option>`
+    const str = `<option value="0">---Please Choose---</option>`
 
     $('#product-import-detail-Cre .row .product').append(str)
 
@@ -188,7 +241,7 @@ pageProductImport.commands.addMore = () => {
 
     pageProductImport.elements.addMoreButton.on("click", () => {
 
-        if($('#product-import-detail-Cre .row .product').length > productsArr.length){
+        if ($('#product-import-detail-Cre .row .product').length > productsArr.length) {
             AppUtils.showError("Đã chọn tối ta sản phẩm hiện có")
             return
         }
@@ -216,7 +269,7 @@ pageProductImport.commands.addMore = () => {
         const countElem = $('#product-import-detail-Cre .row .product').length - 1;
         console.log(countElem)
 
-        const str = `<option value="">---Please Choose---</option>`
+        const str = `<option value="0">---Please Choose---</option>`
         $($('#product-import-detail-Cre .row .product')[countElem]).append(str)
 
         $.each(productsArr, (index, item) => {
@@ -265,18 +318,32 @@ pageProductImport.commands.handleProductSelected = () => {
 
     pageProductImport.elements.productSelectCre = $('[name="productIdsCre"]')
 
-    productSelectedArrayCre = pageProductImport.elements.productSelectCre.map(function() {
+    productSelectedArrayCre = pageProductImport.elements.productSelectCre.map(function () {
         return $(this).val();
     }).get();
 
-    pageProductImport.elements.productSelectCre.on("change", function (){
-        if(productSelectedArrayCre.find(id => +id === +$(this).val())){
-            $(this).val("");
+    pageProductImport.elements.productSelectCre.on("change", function () {
+        if (productSelectedArrayCre.find(id => +id === +$(this).val()) && $(this).val() > "0") {
+            // $(this).val("0");
+            $(this).empty()
+            // $(this).remove()
+            const str = `<option value="0">---Please Choose---</option>`
 
-            AppUtils.showError("Vui lòng không chọn trùng sản phẩm")
+            $(this).append(str)
+
+            $.each(productsArr, (index, item) => {
+                const str = `<option value="${item.id}">${item.productName}</option>`
+
+                $(this).append(str)
+            })
+
+
+            AppUtils.showError("Vui lòng không chọn trùng sản phẩm");
         }
 
-        productSelectedArrayCre = pageProductImport.elements.productSelectCre.map(function() {
+        pageProductImport.elements.productSelectCre = $('[name="productIdsCre"]')
+
+        productSelectedArrayCre = pageProductImport.elements.productSelectCre.map(function () {
             return $(this).val();
         }).get();
 
@@ -288,7 +355,7 @@ pageProductImport.commands.handleOnHoverProductImport = () => {
     $('#product-import-detail-Cre .row div.delete').empty();
 
     let elem;
-    $('#product-import-detail-Cre .row').hover(function()  {
+    $('#product-import-detail-Cre .row').hover(function () {
         const str = `
             <button type="button" class="btn btn-danger delete" data-id="1">
                 Delete
@@ -301,20 +368,37 @@ pageProductImport.commands.handleOnHoverProductImport = () => {
         }
     })
 
-    $('#product-import-detail-Cre .row').on( "mouseleave", function () {
+    $('#product-import-detail-Cre .row').on("mouseleave", function () {
         $('#product-import-detail-Cre .row div.delete').empty();
     });
 }
 
-pageProductImport.commands.handleAddEventDeleteButton = () => {
+pageProductImport.commands.handleAddEventDeleteButton =  () => {
     pageProductImport.elements.productImportDetailCre.on('click', 'button.delete', function () {
         $(this).parent().parent().remove()
+
+
+        pageProductImport.elements.productSelectCre = $('[name="productIdsCre"]')
+
+        productSelectedArrayCre = pageProductImport.elements.productSelectCre.map(function () {
+            return $(this).val();
+        }).get();
     })
+
+
 
 }
 
 pageProductImport.elements.btnCreate.on('click', async () => {
     pageProductImport.elements.frmCreate.trigger('submit')
+})
+
+pageProductImport.elements.btnConfirm.on("click", () => {
+    pageProductImport.commands.confirmProductImport()
+})
+
+pageProductImport.elements.btnCancel.on("click", () => {
+    pageProductImport.commands.cancelProductImport()
 })
 
 pageProductImport.elements.frmCreate.validate({
@@ -437,32 +521,7 @@ pageProductImport.commands.createProductImport = () => {
     }, 1000);
 }
 
-pageProductImport.commands.confirmProductImport =   () => {
-
-    pageProductImport.elements.btnConfirm.on("click", async () => {
-
-        const products = []
-
-        for (let i = 0; i < $('[name="productIdsConf"]').length; i++) {
-
-            const productId = $('[name="productIdsConf"]').eq(i).find('option:selected').val();
-
-            const quantity = $('[name="productIdsConf"]').eq(i).parent().parent().find('[name="quantitiesConf"]').val()
-
-            const product = {
-                productId,
-                quantity
-            };
-            products.push(product);
-        }
-
-
-        const importDate = await pageProductImport.elements.importDateConf.val()
-
-        const importProduct = {
-            importDate,
-            products
-        }
+pageProductImport.commands.confirmProductImport = () => {
 
         pageProductImport.elements.btnConfirm.prop("disabled", true);
         pageProductImport.elements.btnCancel.prop("disabled", true);
@@ -475,7 +534,7 @@ pageProductImport.commands.confirmProductImport =   () => {
                 {
                     method: 'POST',
                     url: pageProductImport.url.confirmProductImport + productImportId,
-                    data: JSON.stringify(importProduct)
+                    data: {}
                 }
             )
                 .done(async (data) => {
@@ -518,7 +577,62 @@ pageProductImport.commands.confirmProductImport =   () => {
                     pageProductImport.elements.loading.addClass('hide')
                 });
         }, 1000);
-    })
+}
+
+pageProductImport.commands.cancelProductImport = () => {
+
+    pageProductImport.elements.btnConfirm.prop("disabled", true);
+    pageProductImport.elements.btnCancel.prop("disabled", true);
+
+    pageProductImport.elements.loading.removeClass('hide');
+
+
+    setTimeout(() => {
+        $.ajax(
+            {
+                method: 'POST',
+                url: pageProductImport.url.cancelProductImport + productImportId,
+                data: {}
+            }
+        )
+            .done(() => {
+
+                $("#tr_" + productImportId).remove();
+
+                pageProductImport.elements.modalConfirm.modal('hide');
+
+                AppUtils.showSuccess('Hủy nhập hàng thành công');
+
+            })
+            .fail((err) => {
+                const responseJSON = err.responseJSON
+
+                if (responseJSON) {
+                    let str = '<ul>'
+                    $.each(responseJSON, (k, v) => {
+                        if (k.includes('.')) {
+                            str += `<li><label for="${k.split('.')[1] + 'Det'}">${v}</label></li>`
+                        } else {
+                            str += `<li><label for="${k + 'Det'}">${v}</label></li>`
+                        }
+
+                    })
+
+                    str += '</ul>'
+
+                    // $('.area-error').append(str).removeClass('hide').css('display', '')
+                    $('#modalConfirm .area-error').append(str).removeClass('hide').css('display', '')
+
+                    AppUtils.showError("Hủy nhập hàng thất bại")
+                }
+            })
+            .always(() => {
+                pageProductImport.elements.btnConfirm.prop("disabled", false);
+                pageProductImport.elements.btnCancel.prop("disabled", false);
+                pageProductImport.elements.loading.addClass('hide')
+            });
+    }, 1000);
+
 }
 $.validator.addMethod(
     "customMaxDate",
@@ -555,13 +669,21 @@ pageProductImport.elements.modalCreate.on('hidden.bs.modal', async () => {
 
     pageProductImport.commands.handleOnHoverProductImport();
 
-    pageProductImport.commands.handleAddEventDeleteButton()
+    await pageProductImport.commands.handleProductSelected
+
+    await pageProductImport.commands.handleAddEventDeleteButton()
 
     rowProductImport = 1
 
     rowCount = rowProductImport
 
     await pageProductImport.commands.getAllProduct()
+
+    pageProductImport.elements.productSelectCre = $('[name="productIdsCre"]')
+
+    productSelectedArrayCre = pageProductImport.elements.productSelectCre.map(function () {
+        return $(this).val();
+    }).get();
 
 })
 
@@ -572,6 +694,15 @@ pageProductImport.elements.modalConfirm.on('hidden.bs.modal', async () => {
     $('#frmConfirm label.error').remove()
 
     await pageProductImport.elements.productImportDetailConf.empty()
+})
+
+pageProductImport.elements.modalDetail.on('hidden.bs.modal', async () => {
+    $('#modalDetail .area-error').empty().addClass('hide');
+    $('#frmDetail').trigger('reset')
+    $('#frmDetail input').removeClass('error')
+    $('#frmDetail label.error').remove()
+
+    await pageProductImport.elements.productImportDetailDet.empty()
 })
 
 $.ajaxSetup({
@@ -590,6 +721,8 @@ $(async () => {
     pageProductImport.commands.addMore();
 
     pageProductImport.commands.handleOnHoverProductImport();
+
+    await pageProductImport.commands.handleProductSelected
 
     pageProductImport.commands.handleAddEventDeleteButton()
 

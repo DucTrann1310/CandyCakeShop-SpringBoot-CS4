@@ -17,16 +17,16 @@ public interface ProductImportRepository extends JpaRepository<ProductImport, Lo
     @Query(value =
             "SELECT " +
                 "pi.id, " +
-                "pi.import_date AS importDate, " +
+                "pi.import_date AS importDate," +
                 "GROUP_CONCAT(p.product_name) AS products," +
-                "pi.confirm " +
+                "pi.confirm as confirm " +
             "FROM product_imports pi " +
             "LEFT JOIN product_import_details pid " +
             "ON pi.id = pid.product_import_id " +
             "LEFT JOIN products p " +
             "ON p.id = pid.product_id " +
             "GROUP BY pi.id " +
-            "ORDER BY pi.id",
+            "ORDER BY pi.created_at",
             nativeQuery = true
     )
     List<ProductImportResDTO> findAllProductImportResDTO();
@@ -43,7 +43,7 @@ public interface ProductImportRepository extends JpaRepository<ProductImport, Lo
     @Query("SELECT new com.cg.model.dto.ImportProductResDTO ( " +
             "pi.id, " +
             "pi.importDate, " +
-            "pi.confirm " +
+            "pi.confirm  " +
             ") " +
             "FROM ProductImport as pi " +
             "WHERE pi.id = :product_import_id"
@@ -54,9 +54,9 @@ public interface ProductImportRepository extends JpaRepository<ProductImport, Lo
     @Query(value =
             "SELECT " +
                     "pi.id, " +
-                    "pi.import_date AS importDate, " +
+                    "pi.import_date AS importDate," +
                     "GROUP_CONCAT(p.product_name) AS products," +
-                    "pi.confirm " +
+                    "pi.confirm as confirm " +
             "FROM product_imports pi " +
             "LEFT JOIN product_import_details pid " +
             "ON pi.id = pid.product_import_id " +
@@ -75,17 +75,17 @@ public interface ProductImportRepository extends JpaRepository<ProductImport, Lo
     @Query(value =
             "SELECT " +
                     "pi.id, " +
-                    "pi.import_date AS importDate, " +
+                    "pi.import_date AS importDate," +
                     "GROUP_CONCAT(p.product_name) AS products," +
-                    "pi.confirm " +
+                    "pi.confirm as confirm " +
             "FROM product_imports pi " +
             "LEFT JOIN product_import_details pid " +
             "ON pi.id = pid.product_import_id " +
             "LEFT JOIN products p " +
             "ON p.id = pid.product_id " +
-            "WHERE pi.id = :product_import_id" +
+            "WHERE pi.id = :product_import_id " +
             "GROUP BY pi.id ",
             nativeQuery = true
     )
-    ProductImportResDTO findProductImportResDTOByProducImportId(@Param("product_import_id") Long product_import_id);
+    ProductImportResDTO findProductImportResDTOByProductImportId(@Param("product_import_id") Long product_import_id);
 }

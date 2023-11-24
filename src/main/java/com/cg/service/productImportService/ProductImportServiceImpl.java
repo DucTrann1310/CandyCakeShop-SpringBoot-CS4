@@ -86,17 +86,26 @@ public class ProductImportServiceImpl implements IProductImportService {
     }
 
     @Override
-    public void confirm(Long productImportId, ImportProductUpReqDTO importProductUpReqDTO) {
-        ProductImport productImport = new ProductImport();
-        productImport.setId(productImportId);
+    public void confirm(Long productImportId) {
+        ProductImport productImport = productImportRepository.findById(productImportId).get();
         productImport.setConfirm(true);
 
         productImportRepository.save(productImport);
     }
 
     @Override
-    public ProductImportResDTO findProductImportResDTOByProducImportId(Long product_import_id) {
-        return productImportRepository.findProductImportResDTOByProducImportId(product_import_id);
+    public ProductImportResDTO findProductImportResDTOByProductImportId(Long product_import_id) {
+        return productImportRepository.findProductImportResDTOByProductImportId(product_import_id);
+    }
+
+    @Override
+    public void cancel(Long productImportId) {
+
+        productImportDetailRepository.deleteProductImportDetailsByProductImportId(productImportId);
+
+        productImportRepository.deleteById(productImportId);
+
+
     }
 
     @Override

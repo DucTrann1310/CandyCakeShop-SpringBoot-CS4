@@ -1,6 +1,7 @@
 package com.cg.model.dto;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 public interface ProductImportResDTO {
 
@@ -10,6 +11,6 @@ public interface ProductImportResDTO {
 
     String getProducts();
 
-    Boolean getConrirm();
+    Boolean getConfirm();
 
 }

@@ -47,13 +47,22 @@ public class ProductImportAPI {
     }
 
     @PostMapping("/{productImportId}")
-    public ResponseEntity<?> confirmProductImport(@PathVariable Long productImportId, @RequestBody ImportProductUpReqDTO importProductUpReqDTO) {
+    public ResponseEntity<?> confirmProductImport(@PathVariable Long productImportId) {
 
 
-        productImportService.confirm(productImportId,importProductUpReqDTO);
+        productImportService.confirm(productImportId);
 
-        ProductImportResDTO productImportResDTO = productImportService.findProductImportResDTOByProducImportId(productImportId);
+        ProductImportResDTO productImportResDTO = productImportService.findProductImportResDTOByProductImportId(productImportId);
+
 
         return new ResponseEntity<>(productImportResDTO, HttpStatus.OK);
+    }
+
+    @PostMapping("/cancel/{productImportId}")
+    public ResponseEntity<?> cancelProductImport(@PathVariable Long productImportId){
+
+        productImportService.cancel(productImportId);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -19,7 +19,9 @@ public interface IProductImportService extends IGeneralService<ProductImport, Lo
 
     ProductImportResDTO findProductImportResDTOByMaxId();
 
-    void confirm(Long productImportId, ImportProductUpReqDTO importProductUpReqDTO);
+    void confirm(Long productImportId);
 
-    ProductImportResDTO findProductImportResDTOByProducImportId(Long product_import_id);
+    ProductImportResDTO findProductImportResDTOByProductImportId(Long product_import_id);
+
+    void cancel(Long productImportId);
 }
