@@ -17,7 +17,6 @@ let pageable = {
 userForm.onsubmit = async (e) => {
     e.preventDefault();
     let data = getDataFromForm(userForm);
-    console.log(data)
     data = {
         ...data,
         role: {
@@ -28,8 +27,6 @@ userForm.onsubmit = async (e) => {
         },
         id: userSelected.id
     }
-    console.log(data)
-
     let message = "Created"
     if (userSelected.id) {
         await editUser(data);
@@ -56,6 +53,7 @@ userForm.onsubmit = async (e) => {
 function getDataFromForm(form) {
     // event.preventDefault()
     const data = new FormData(form);
+
     return Object.fromEntries(data.entries())
 }
 
@@ -110,7 +108,7 @@ function getDataInput() {
             label: 'Password',
             name: 'password',
             value: userSelected.password,
-            pattern: "^[A-Za-z ]{6,20}",
+            pattern: "^[A-Za-z0-9 ]{6,20}",
             message: "Password must have minimum is 6 characters and maximum is 20 characters",
             required: true
         },
@@ -138,16 +136,6 @@ function getDataInput() {
             message: "dob errors",
             required: true
         },
-        // {
-        //     label: 'Role',
-        //     name: 'role',
-        //     value: userSelected.roleId,
-        //     type: 'select',
-        //     required: true,
-        //     options: roles,
-        //     message: 'Please choose role',
-        //
-        // },
         {
             label: 'Gender',
             name: 'gender',

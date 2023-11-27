@@ -13,6 +13,8 @@ const pageProduct = {
 
 let productId = 0;
 
+let check = true;
+
 pageProduct.elements.bodyProduct = $("#tbProduct tbody");
 
 pageProduct.elements.loading = $('#loading');
@@ -34,6 +36,8 @@ pageProduct.elements.categoryCre = $("#categoryCre");
 pageProduct.elements.priceCre = $("#priceCre");
 pageProduct.elements.productDescriptionCre = $("#productDescriptionCre");
 pageProduct.elements.btnCreate = $("#btnCreate")
+pageProduct.elements.avatarCre = $("#avatarCreated")
+pageProduct.elements.avatarRoomCre = $("#avatar-room")
 
 pageProduct.elements.modalUpdate = $("#modalUpdate");
 pageProduct.elements.frmUpdate = $("#frmUpdate");
@@ -45,10 +49,83 @@ pageProduct.elements.btnUpdate = $("#btnUpdate")
 
 
 
+
 async function getAllProducts() {
     return await $.ajax({
         url: pageProduct.url.getAllProduct
     })
+}
+
+async function previewImage(evt) {
+    if (evt.target.files.length === 0){
+        return;
+    }
+
+    if(check) {
+        idImages = [];
+    }
+
+    const files = evt.target.files;
+    for (let i = 0; i < files.length; i++){
+        webToast.Success({
+            status: `Uploading image ${i + 1} / ${files.length} . . .`,
+            message: '',
+            delay: 1000,
+            align: 'topright'
+        });
+        const file = files[i];
+        await previewImageFile(file);
+
+        if (file){
+            disableSaveChangesButton();
+            //tao formData va them file duoc chon
+            const formData = new FormData();
+            formData.append("avatar", file);
+            formData.append("fileType", "image");
+
+            try{
+                const response = await fetch("api/bookImages", {
+                    method: "POST",
+                    body: formData
+                });
+
+                if (response.ok){
+                    const result = await response.json();
+                    check = false;
+
+                    if (result && result.id) {
+                        const id = result.id;
+                        const imgEle = document.getElementById("images");
+                        const imageContainer = imgEle.lastChild;
+
+                        idImages.push(id);
+
+                        const deleteButton = imageContainer.querySelector(".delete-button");
+                        deleteButton.addEventListener("click", () => {
+                            const input = document.getElementById("file");
+                            input.disabled = true;
+                            deleteImage(id);
+                            imageContainer.remove();
+                        });
+                    } else {
+                        console.error("Image ID not found in the response");
+                    }
+                } else {
+                    console.error("Failed to upload image:", response.statusText);
+                }
+
+            }catch (error){
+                console.error("An error occurred:", error);
+            }
+            webToast.Success({
+                status: `Upload completed !`,
+                message: '',
+                delay: 1000,
+                align: 'topright'
+            });
+            enableSaveChangesButton();
+        }
+    }
 }
 
 pageProduct.loadData.getAllProducts = async () => {
@@ -62,6 +139,119 @@ pageProduct.loadData.getAllProducts = async () => {
         pageProduct.commands.handleClickRow();
     })
 }
+
+async function previewImageFile(file){
+    const reader = new FileReader();
+    reader.onload = function (){
+        const imgEle = document.getElementById("images");
+
+        const imageContainer = document.createElement('div');
+        imageContainer.classList.add('imageContainer');
+
+        const img = document.createElement("img");
+
+        img.src = reader.result;
+        img.classList.add("avatar-preview");
+        imageContainer.append(img);
+
+        let deleteButton = document.createElement('button');
+        deleteButton.classList.add('btn-close');
+        deleteButton.classList.add('delete-button');
+        imageContainer.append(deleteButton);
+        imgEle.append(imageContainer);
+
+    };
+    reader.readAsDataURL(file);
+}
+
+async function deleteImage(id) {
+    try {
+        const response = await fetch(`api/bookImages/${id}`, {
+            method: "DELETE"
+        });
+
+        if (response.ok) {
+            const input = document.getElementById("file");
+            input.disabled = false;
+            console.log("Image deleted from the database.");
+        } else {
+            console.error("Failed to delete image from the database:", response.statusText);
+        }
+    } catch (error) {
+        console.error("An error occurred:", error);
+    }
+}
+function showImgInForm(images) {
+    const imgEle = document.getElementById("images");
+    const input = document.getElementById("file");
+    const imgOld = imgEle.querySelectorAll("img");
+    for (let i = 0; i < imgOld.length; i++) {
+        imgEle.removeChild(imgOld[i])
+    }
+
+    const avatarDefault = document.createElement('img');
+    avatarDefault.src = '/assets/img/img.png';
+    avatarDefault.classList.add('avatar-preview');
+    imgEle.append(avatarDefault)
+
+    images.forEach((img, index) => {
+        let imageContainer = document.createElement('div');
+        imageContainer.classList.add('imageContainer');
+        let image = document.createElement('img');
+
+        image.src = img;
+        image.classList.add('avatar-preview');
+        imageContainer.append(image);
+
+        let deleteButton = document.createElement('button');
+        deleteButton.classList.add('delete-button');
+        deleteButton.classList.add('btn-close');
+        imageContainer.append(deleteButton);
+
+        deleteButton.addEventListener('click', () => {
+
+            input.disabled = true;
+            removeImage(index); // Gọi hàm xóa ảnh khi click vào dấu X
+            imageContainer.remove(); // Xóa container chứa ảnh và nút X
+        });
+
+        imgEle.append(imageContainer);
+    });
+}
+async function removeImage(index) {
+    try {
+        const imgToDelete = bookSelected.images[index];
+
+        const formData = new FormData;
+        formData.append("url", imgToDelete);
+
+        const response = await fetch("api/bookImages", {
+            method: 'DELETE',
+            body:formData,
+        });
+
+        if (response.ok) {
+            // Xóa ảnh khỏi mảng images
+            bookSelected.images.splice(index, 1);
+
+            input.disabled = false;
+            console.log('Image deleted successfully');
+        } else {
+            console.error('Error deleting image:', response.status);
+        }
+    } catch (error) {
+        console.error('Error deleting image:', error);
+    }
+}
+function disableSaveChangesButton() {
+    const saveChangesButton = document.getElementById('saveChangesButton');
+    saveChangesButton.disabled = true;
+}
+function enableSaveChangesButton() {
+    const saveChangesButton = document.getElementById('saveChangesButton');
+    saveChangesButton.disabled = false;
+}
+
 
 pageProduct.loadData.getProductById = async () => {
     return await $.ajax({
@@ -114,6 +304,9 @@ pageProduct.commands.createProduct = () => {
     const description = pageProduct.elements.productDescriptionCre.val();
     const id = pageProduct.elements.categoryCre.val();
     const categoryName = pageProduct.elements.categoryCre.find('option:selected').text();
+    // const avatar = pageProduct.elements.avatarCre.value()
+    let avatar = document.getElementById("avatarCreated").value;
+
 
     const categoryCreReqDTO = {
         id,
@@ -124,14 +317,15 @@ pageProduct.commands.createProduct = () => {
         productName,
         categoryCreReqDTO,
         price,
-        description
+        description,
+        avatar
     }
 
     pageProduct.elements.btnCreate.prop("disabled", true);
 
     pageProduct.elements.loading.removeClass('hide');
 
-    setTimeout(() => {
+    setTimeout(() => {q
         $.ajax(
             {
                 method: 'POST',

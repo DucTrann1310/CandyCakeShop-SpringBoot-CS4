@@ -52,7 +52,7 @@
             <a href="/homes">
                 <div class="menu-item active">
                     Home
-                </div>
+                </div>56
             </a>
             <a href="/homes#food-menu-section">
                 <div class="menu-item">
@@ -71,23 +71,40 @@
                 <a href="/auth" class="cart-btn"><i class='bx bx-cart-alt'></i> </a>
             </div>
         </div>
-
-    </div>
-    <div class="navbar-nav align-items-center ms-auto">
-        <div class="nav-item dropdown">
-            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                <img class="rounded-circle me-lg-2" src="img/user.jpg" alt=""
-                     style="width: 40px; height: 40px;">
-                <span class="d-none d-lg-inline-flex">${user.name}</span>
-            </a>
-            <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                <a href="/user?action=profile&id=${user.id}" class="dropdown-item">My Profile</a>
-                <a href="/auth?action=changePassword&id=${user.id}" class="dropdown-item">Change Password</a>
-                <a href="/auth?action=logout" class="dropdown-item">Log Out</a>
-            </div>
+        <div>
+            <form class="d-flex">
+                <div class="right-items login" id="user-info" th:if="${loggedIn == false}">
+                    <a href="/login" class="btn btn-primary d-none d-lg-block " id="login-btn">Login</a>
+                </div>
+                <div class="right-items login d-flex" th:if="${loggedIn == true}">
+                    <div style="padding-right: 20px">
+                        <a class="btn btn-primary d-none d-lg-block "
+                           th:href="${user.role.toString() == 'ADMIN' ? '/dashboard' : '/user'}"
+                           th:text="${user.name}"></a>
+                    </div>
+                    <div>
+                        <a href="/logout" class="btn btn-primary d-none d-lg-block ">Logout</a>
+                    </div>
+                </div>
+            </form>
         </div>
-        <a href="/auth" class="login-btn">Login </a>
     </div>
+    <!--    <div class="navbar-nav align-items-center ms-auto">-->
+    <!--        <div class="nav-item dropdown">-->
+    <!--            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">-->
+    <!--                <img class="rounded-circle me-lg-2" src="img/user.jpg" alt=""-->
+    <!--                     style="width: 40px; height: 40px;">-->
+    <!--                <span class="d-none d-lg-inline-flex">${user.name}</span>-->
+    <!--            </a>-->
+    <!--            <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">-->
+    <!--                <a href="/user?action=profile&id=${user.id}" class="dropdown-item">My Profile</a>-->
+    <!--                <a href="/auth?action=changePassword&id=${user.id}" class="dropdown-item">Change Password</a>-->
+    <!--                <a href="/auth?action=logout" class="dropdown-item">Log Out</a>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--        <a href="/auth" class="login-btn">Login </a>-->
+    <!--    </div>-->
+
 </div>
 <!-- END TOP NAVIGATION -->
 <!-- SECTION HOME -->
@@ -148,26 +165,6 @@
             <div class="food-item-wrap all" id="renderProd">
 
             </div>
-
-<!--            <div style="display: flex; align-items: center; justify-content: center; margin-top: 20px;">-->
-<!--                <nav aria-label="...">-->
-<!--                    <ul class="pagination">-->
-<!--                        <li class="page-item">-->
-<!--                            <a class="page-link" href="${url}${(page.currentPage - 1)}" tabindex="-1"-->
-<!--                               aria-disabled="true">Previous</a>-->
-<!--                        </li>-->
-<!--                        <li class="page-item active" aria-current="page">-->
-<!--                            <a class="page-link" href="${url}${number}">${number}</a>-->
-<!--                        </li>-->
-<!--                        <li class="page-item">-->
-<!--                            <a class="page-link" href="${url}${number}">${number}</a>-->
-<!--                        </li>-->
-<!--                        <li class="page-item">-->
-<!--                            <a class="page-link" href="${url}${(page.currentPage + 1)}">Next</a>-->
-<!--                        </li>-->
-<!--                    </ul>-->
-<!--                </nav>-->
-<!--            </div>-->
         </div>
     </div>
 </section>

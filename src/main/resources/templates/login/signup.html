@@ -1,0 +1,171 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+
+<!--<head>-->
+<!--    <meta charset="utf-8">-->
+<!--    <title>DASHMIN - Bootstrap Admin Template</title>-->
+<!--    <meta content="width=device-width, initial-scale=1.0" name="viewport">-->
+<!--    <meta content="" name="keywords">-->
+<!--    <meta content="" name="description">-->
+
+<!--    &lt;!&ndash; Favicon &ndash;&gt;-->
+<!--    <link href="img/favicon.ico" rel="icon">-->
+
+<!--    &lt;!&ndash; Google Web Fonts &ndash;&gt;-->
+<!--    <link rel="preconnect" href="https://fonts.googleapis.com">-->
+<!--    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>-->
+<!--    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">-->
+<!--    -->
+<!--    &lt;!&ndash; Icon Font Stylesheet &ndash;&gt;-->
+<!--    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">-->
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">-->
+
+<!--    &lt;!&ndash; Libraries Stylesheet &ndash;&gt;-->
+<!--    <link href="/assets/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">-->
+<!--    <link href="/assets/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />-->
+
+<!--    &lt;!&ndash; Customized Bootstrap Stylesheet &ndash;&gt;-->
+<!--    <link href="/assets/css/bootstrap.min.css" rel="stylesheet">-->
+
+<!--    &lt;!&ndash; Template Stylesheet &ndash;&gt;-->
+<!--    <link href="/assets/css/style.css" rel="stylesheet">-->
+<!--</head>-->
+
+<!--<body>-->
+<!--    <div class="container-xxl position-relative bg-white d-flex p-0">-->
+<!--        &lt;!&ndash; Spinner Start &ndash;&gt;-->
+<!--        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">-->
+<!--            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">-->
+<!--                <span class="sr-only">Loading...</span>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        &lt;!&ndash; Spinner End &ndash;&gt;-->
+
+
+<!--        &lt;!&ndash; Sign Up Start &ndash;&gt;-->
+<!--        <div class="container-fluid">-->
+<!--            <div class="row h-100 align-items-center justify-content-center" style="min-height: 100vh;">-->
+<!--                <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4">-->
+<!--                    <div class="bg-light rounded p-4 p-sm-5 my-4 mx-3">-->
+<!--                        <div class="d-flex align-items-center justify-content-between mb-3">-->
+<!--                            <a href="index.html" class="">-->
+<!--                                <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>DASHMIN</h3>-->
+<!--                            </a>-->
+<!--                            <h3>Sign Up</h3>-->
+<!--                        </div>-->
+<!--                        <form-->
+<!--                                th:action="@{/register}"-->
+<!--                                th:object="${user}"-->
+<!--                                class="request-form bg-dark-blue"-->
+<!--                                id="register-form"-->
+<!--                                method="post"-->
+<!--                                role="form"-->
+<!--                                style="width: 100%"-->
+<!--                                onsubmit="return validateForm()"-->
+<!--                        >-->
+<!--                            <div class="form-group">-->
+<!--                                <label for="fullName" class="label">Full Name</label>-->
+<!--                                <input-->
+<!--                                        required-->
+<!--                                        class="form-control"-->
+<!--                                        id="fullName"-->
+<!--                                        name="fullName"-->
+<!--                                        placeholder="Enter Full Name"-->
+<!--                                        th:field="*{username}"-->
+<!--                                        type="text"-->
+<!--                                />-->
+<!--                                <p th:errors="*{username}" class="text-danger"-->
+<!--                                   th:if="${#fields.hasErrors('username')}"></p>-->
+<!--                            </div>-->
+<!--                            <div class="form-group">-->
+<!--                                <label class="label">Phone Number</label>-->
+<!--                                <input-->
+<!--                                        required-->
+<!--                                        class="form-control"-->
+<!--                                        id="phoneNumber"-->
+<!--                                        name="phoneNumber"-->
+<!--                                        placeholder="Enter Phone Number"-->
+<!--                                        th:field="*{phone}"-->
+<!--                                        type="text"-->
+<!--                                />-->
+<!--                                <p th:errors="*{phone}" class="text-danger"-->
+<!--                                   th:if="${#fields.hasErrors('phone')}"></p>-->
+<!--                            </div>-->
+<!--                            <div class="form-group">-->
+<!--                                <label class="label">Email</label>-->
+<!--                                <input-->
+<!--                                        required-->
+<!--                                        class="form-control"-->
+<!--                                        id="email"-->
+<!--                                        name="email"-->
+<!--                                        placeholder="Enter Email Address"-->
+<!--                                        th:field="*{email}"-->
+<!--                                        type="text"-->
+<!--                                />-->
+<!--                                <p th:errors="*{email}" class="text-danger"-->
+<!--                                   th:if="${#fields.hasErrors('email')}"></p>-->
+<!--                            </div>-->
+<!--                            <div class="form-group">-->
+<!--                                <label for="password" class="label">Password</label>-->
+<!--                                <input-->
+<!--                                        required-->
+<!--                                        class="form-control"-->
+<!--                                        id="password"-->
+<!--                                        name="password"-->
+<!--                                        placeholder="Enter Password"-->
+<!--                                        th:field="*{password}"-->
+<!--                                        type="password"-->
+<!--                                />-->
+<!--                                <p th:errors="*{password}" class="text-danger"-->
+<!--                                   th:if="${#fields.hasErrors('password')}"></p>-->
+<!--                            </div>-->
+<!--                            <div class="form-group">-->
+<!--                                <label for="confirmPassword" class="label">Confirm Password</label>-->
+<!--                                <input-->
+<!--                                        required-->
+<!--                                        class="form-control"-->
+<!--                                        id="confirmPassword"-->
+<!--                                        name="confirmPassword"-->
+<!--                                        placeholder="Confirm Password"-->
+<!--                                        type="password"-->
+<!--                                />-->
+<!--                            </div>-->
+<!--                            <div class="form-group">-->
+<!--                                <button type="submit" id="login-btn" class="btn btn-secondary py-3 px-4">-->
+<!--                                    Register-->
+<!--                                </button>-->
+<!--                                <span>Already registered? <a th:href="@{/login}">Login here</a></span>-->
+<!--                            </div>-->
+<!--                        </form>-->
+<!--&lt;!&ndash;                        <div class="d-flex align-items-center justify-content-between mb-4">&ndash;&gt;-->
+<!--&lt;!&ndash;                            <div class="form-check">&ndash;&gt;-->
+<!--&lt;!&ndash;                                <input type="checkbox" class="form-check-input" id="exampleCheck1">&ndash;&gt;-->
+<!--&lt;!&ndash;                                <label class="form-check-label" for="exampleCheck1">Check me out</label>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <a href="">Forgot Password</a>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
+<!--                        <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Sign Up</button>-->
+<!--                        <p class="text-center mb-0">Already have an Account? <a href="/signin">Sign In</a></p>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        &lt;!&ndash; Sign Up End &ndash;&gt;-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; JavaScript Libraries &ndash;&gt;-->
+<!--    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>-->
+<!--    <script src="/assets/lib/chart/chart.min.js"></script>-->
+<!--    <script src="/assets/lib/easing/easing.min.js"></script>-->
+<!--    <script src="/assets/lib/waypoints/waypoints.min.js"></script>-->
+<!--    <script src="/assets/lib/owlcarousel/owl.carousel.min.js"></script>-->
+<!--    <script src="/assets/lib/tempusdominus/js/moment.min.js"></script>-->
+<!--    <script src="/assets/lib/tempusdominus/js/moment-timezone.min.js"></script>-->
+<!--    <script src="/assets/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>-->
+
+<!--    &lt;!&ndash; Template Javascript &ndash;&gt;-->
+<!--    <script src="/assets/js/main.js"></script>-->
+<!--</body>-->
+
+<!--</html>-->

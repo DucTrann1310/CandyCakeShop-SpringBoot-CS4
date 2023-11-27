@@ -10,6 +10,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
@@ -21,4 +23,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "u.username LIKE :search"
             )
     Page<User> searchEverything(String search, Pageable pageable);
+    Optional<User> findByUsernameIgnoreCaseOrPhone(String username, String phone);
+    boolean existsByUsername(String username);
+    boolean existsByPhone(String phone);
 }

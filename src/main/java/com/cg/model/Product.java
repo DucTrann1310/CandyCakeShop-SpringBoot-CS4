@@ -9,6 +9,8 @@ import lombok.experimental.Accessors;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -33,6 +35,10 @@ public class Product {
 
     @Column(name = "quantity_sold")
     private Long quantitySold;
+
+
+    @OneToMany(mappedBy = "product")
+    private List<ProductImage> images;
 
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id")

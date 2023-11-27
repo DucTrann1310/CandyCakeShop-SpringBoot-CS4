@@ -55,6 +55,7 @@ public class ProductAPI {
             return appUtils.mapErrorToResponse(bindingResult);
         }
 
+
         Product product = productCreReqDTO.toProduct();
         productService.save(product);
 

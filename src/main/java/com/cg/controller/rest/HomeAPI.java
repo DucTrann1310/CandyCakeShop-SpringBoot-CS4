@@ -17,12 +17,6 @@ import java.util.stream.Collectors;
 public class HomeAPI {
     @Autowired
     private IProductService productService;
-//    @Autowired
-//    private ImageRepository imageRepository;
-//    @Autowired
-//    private ICartService cartService;
-//    @Autowired
-//    private IBillService billService;
     @GetMapping
     public ResponseEntity<?> showAll(){
         List<Product> products = productService.findAll();

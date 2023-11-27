@@ -1,74 +1,87 @@
 package com.cg.controller;
 
-import com.cg.service.productService.IProductService;
+
+import com.cg.model.User;
+import com.cg.service.user.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Optional;
+
 @Controller
-@RequestMapping("/home")
+@RequestMapping(value="/")
 @AllArgsConstructor
 public class HomeController {
-//    private final UserService userService;
+    private final UserService userService;
+    private final ModelAndView modelAndView = new ModelAndView();
 
-    @GetMapping
-    public String showHome() {
-        return "/home/index";
+    @GetMapping("/home")
+    public ModelAndView showHome() {
+        modelAndView.setViewName("home/index");
+        modelAndView.addObject("someKey", "someValue");
+        return modelAndView;
     }
 
     @GetMapping("/productDetail")
-    public String showProductDetail() {
-        return "/home/productDetail";
+    public ModelAndView showProductDetail() {
+        modelAndView.setViewName("home/productDetail");
+        modelAndView.addObject("someKey", "someValue");
+        return modelAndView;
+    }
+    @GetMapping("/user")
+    public ModelAndView showUser() {
+        modelAndView.setViewName("user/index");
+        modelAndView.addObject("someKey", "someValue");
+        ModelAndView modelAndView = Login();
+        return modelAndView;
     }
 
-//    @GetMapping("/shop")
-//    public String showShop() {
-//        return "shop";
-//    }
-//
-//    @GetMapping("/cart")
-//    public String showCart() {
-//        return "cart";
-//    }
-//
-//    @GetMapping("/detail")
-//    public String showDetail() {
-//        return "detail";
-//    }
-//
-//    private final ModelAndView modelAndView = new ModelAndView();
-//
-//    @GetMapping("/")
-//    public ModelAndView getHome() {
-//        modelAndView.setViewName("index");
-////        ModelAndView modelAndView = Login();
-//        modelAndView.addObject("someKey", "someValue");
-//        return modelAndView;
-//    }
-//
-//    @GetMapping("/price")
-//    public ModelAndView price() {
-//        modelAndView.setViewName("price");
-////        ModelAndView modelAndView = Login();
-//        modelAndView.addObject("someKey", "someValue");
-//        return modelAndView;
-//    }
-//
-//    @GetMapping("/contact")
-//    public String showContact() {
-//        return "/home/contact";
-//    }
-//
-//    @GetMapping("/checkout")
-//    public String showCheckout() {
-//        return "/home/checkout";
-//    }
-//
-//    @GetMapping("/login")
-//    public String showLogin() {
-//        return "login/login";
-//    }
+    @GetMapping("/products")
+    public ModelAndView showProduct() {
+        modelAndView.setViewName("product/index");
+        ModelAndView modelAndView = Login();
+        modelAndView.addObject("someKey", "someValue");
+
+        return modelAndView;
+    }
+
+    public ModelAndView Login(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            String username = userDetails.getUsername();
+
+            Optional<User> user = userService.findByNameIgnoreCaseOrPhone(username);
+
+            if (user.isPresent()) {
+                modelAndView.addObject("loggedIn", true);
+                modelAndView.addObject("user", user.get());
+            } else {
+                modelAndView.addObject("loggedIn", false);
+            }
+        } else {
+            modelAndView.addObject("loggedIn", false);
+        }
+
+        return modelAndView;
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+
+        SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
+        logoutHandler.logout(request, response, SecurityContextHolder.getContext().getAuthentication());
+
+        return "redirect:/auth";
+    }
+
 }

@@ -11,8 +11,8 @@
                     <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
                 </div>
                 <div class="ms-3">
-                    <h6 class="mb-0">${user.name}</h6>
-                    <span>${user.role.name}</span>
+                    <h6 class="mb-0" th:text="${user.username}"></h6>
+                    <span th:text="${user.role.name}"></span>
                 </div>
             </div>
             <div class="navbar-nav w-100">
@@ -20,7 +20,7 @@
                         class="fa fa-tachometer-alt me-2"></i>Profile</a>
 
                 <a href="/products" class="nav-item nav-link" id="left-side-bar-product"><i class="fa fa-th me-2 "></i>Product</a>
-                <a href="/product-imports" class="nav-item nav-link" id="left-side-bar-product-import"><i class="fa fa-keyboard me-2"></i>Product
+                <a href="/product-imports/" class="nav-item nav-link" id="left-side-bar-product-import"><i class="fa fa-keyboard me-2"></i>Product
                     Import</a>
                 <a href="/user" class="nav-item nav-link" id="left-side-bar-user"><i class="fa fa-table me-2"></i>User</a>
                 <a href="/express" class="nav-item nav-link" id="left-side-bar-express"><i class="fa fa-chart-bar me-2"></i>Express</a>

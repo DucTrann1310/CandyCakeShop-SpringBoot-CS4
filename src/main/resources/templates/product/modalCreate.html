@@ -30,6 +30,17 @@
                             <label for="productDescriptionCre" class="form-label">Description</label>
                             <input type="text" class="form-control" name="productDescriptionCre" id="productDescriptionCre">
                         </div>
+                        <div class="mb-3">
+<!--                            <label for="avatarCreated" class="btn btn-primary">Avatar </label>-->
+<!--                            <img src="/assets/img/inputicon.png" alt="default" id="avatar-room"-->
+<!--                                 style="max-height: 100px; max-width: 100px; border-radius: 50%; object-fit: contain"/>-->
+<!--                            <input id="avatarCreated" type="file" multiple class="d-none" onchange="previewImage(event)"/>-->
+<!--                            <input name="avatar" type="hidden" id="avatarCre"/>-->
+                            <label id="images" for="file">
+                                <img class="avatar-preview" src="/assets/img/inputicon.png" style="height: 100px; width: 100px"/>
+                                <input id="file" class="d-none" type="file" multiple="multiple"  onchange="previewImage(event)">
+                            </label>
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">

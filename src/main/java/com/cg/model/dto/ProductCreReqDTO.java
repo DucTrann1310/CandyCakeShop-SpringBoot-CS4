@@ -24,12 +24,16 @@ public class ProductCreReqDTO implements Validator {
 
     private String description;
 
+    private String avatar;
+
+
     public Product toProduct() {
         return new Product()
                 .setProductName(productName)
                 .setCategory(categoryCreReqDTO.toCategory())
                 .setPrice(BigDecimal.valueOf(Long.parseLong(price)))
-                .setDescription(description);
+                .setDescription(description)
+                ;
     }
 
     @Override
