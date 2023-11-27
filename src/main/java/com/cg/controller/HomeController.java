@@ -17,7 +17,7 @@ public class HomeController {
     public String showHome() {
         return "/home/index";
     }
-
+    
     @GetMapping("/productDetail")
     public String showProductDetail() {
         return "/home/productDetail";
@@ -30,7 +30,7 @@ public class HomeController {
 //
 //    @GetMapping("/cart")
 //    public String showCart() {
-//        return "cart";
+//        return "/home/cart";
 //    }
 //
 //    @GetMapping("/detail")
