@@ -67,12 +67,12 @@ async function previewImage(evt) {
 
     const files = evt.target.files;
     for (let i = 0; i < files.length; i++){
-        webToast.Success({
-            status: `Uploading image ${i + 1} / ${files.length} . . .`,
-            message: '',
-            delay: 1000,
-            align: 'topright'
-        });
+        // webToast.Success({
+        //     status: `Uploading image ${i + 1} / ${files.length} . . .`,
+        //     message: '',
+        //     delay: 1000,
+        //     align: 'topright'
+        // });
         const file = files[i];
         await previewImageFile(file);
 
