@@ -1,29 +1,26 @@
 package com.cg.model.dto;
 
-import com.cg.model.ProductImport;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Date;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class ImportProductReqDTO {
+public class ImportProductCreReqDTO {
 
-    private String createdAt;
-    private List<ProductImportReqDTO> products;
+    private String importDate;
+
+    private List<ProductImportCreReqDTO> products;
 
     @Override
     public String toString() {
         return "ImportProductReqDTO{" +
-                "createdAt=" + createdAt +
+                "importDate=" + importDate +
                 ", products=" + products.toString() +
                 '}';
     }

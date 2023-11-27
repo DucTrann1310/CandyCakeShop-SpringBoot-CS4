@@ -49,17 +49,17 @@
             </div>
         </a>
         <div class="menu h-xs">
-            <a href="/homes">
+            <a href="/home">
                 <div class="menu-item active">
                     Home
                 </div>56
             </a>
-            <a href="/homes#food-menu-section">
+            <a href="/home#food-menu-section">
                 <div class="menu-item">
                     Menu
                 </div>
             </a>
-            <a href="/homes#testimonial">
+            <a href="/home#testimonial">
                 <div class="menu-item">
                     Testimonials
                 </div>
@@ -67,8 +67,7 @@
         </div>
         <div class="right-menu">
             <div class="cart-btn">
-                <a href="/cart?idUser=${user.id}" class="cart-btn"><i class='bx bx-cart-alt'></i></a>
-                <a href="/auth" class="cart-btn"><i class='bx bx-cart-alt'></i> </a>
+                <button class="cart-btn btn"><i class='bx bx-cart-alt'></i></button>
             </div>
         </div>
         <div>
@@ -319,6 +318,7 @@
         </div>
     </div>
 </section>
+<th:block th:replace="/home/modalDetail"></th:block>
 <!-- END FOOTER SECTION -->
 <th:block th:replace="/layout/head::home_script"></th:block>
 <script src="/static/assets/js/home.js"></script>

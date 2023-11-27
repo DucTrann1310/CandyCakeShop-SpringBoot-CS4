@@ -28,9 +28,9 @@
         <table class="table table-striped" id="tbProductImport">
           <thead>
           <tr>
+            <th>Id</th>
             <th>Date Import</th>
             <th>List Products</th>
-            <th>Total</th>
             <th>Action</th>
           </tr>
           </thead>
@@ -50,6 +50,12 @@
 
 <!--Modal Create-->
 <th:block th:replace="/product-import/modalCreate"></th:block>
+
+<!--Modal Confirm-->
+<th:block th:replace="/product-import/modalConfirm"></th:block>
+
+<!--Modal Detail-->
+<th:block th:replace="/product-import/modalDetail"></th:block>
 
 <!--script admin-->
 <th:block th:replace="layout/head::admin_script"></th:block>

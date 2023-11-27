@@ -39,4 +39,14 @@ public class ProductImportDetailImpl implements IProductImportDetailService{
     public void deleteById(Long id) {
 
     }
+
+    @Override
+    public void deleteProductImportDetailsByProductImportId(Long productImport_id) {
+        productImportDetailRepository.deleteProductImportDetailsByProductImportId(productImport_id);
+    }
+
+    @Override
+    public List<ProductImportDetail> findProductImportDetailsByProductImportId(Long productImport_id) {
+        return productImportDetailRepository.findProductImportDetailsByProductImportId(productImport_id);
+    }
 }

@@ -2,7 +2,6 @@
 package com.cg.repository;
 
 import com.cg.model.Product;
-import com.cg.model.dto.ProductImportListResDTO;
 import com.cg.model.dto.ProductResDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

@@ -1,24 +1,24 @@
 package com.cg.model.dto;
 
+import com.cg.model.Category;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class ProductImportReqDTO {
+public class ProductImportUpReqDTO {
+
     private Long productId;
+
     private Long quantity;
 
     @Override
     public String toString() {
-        return "ProductImportReqDTO{" +
+        return "ProductImportUpReqDTO{" +
                 "productId=" + productId +
                 ", quantity=" + quantity +
                 '}';

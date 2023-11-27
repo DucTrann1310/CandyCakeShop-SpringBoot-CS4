@@ -77,7 +77,7 @@ async function previewImage(evt) {
         await previewImageFile(file);
 
         if (file){
-            disableSaveChangesButton();
+            // disableSaveChangesButton();
             //tao formData va them file duoc chon
             const formData = new FormData();
             formData.append("avatar", file);
@@ -117,13 +117,13 @@ async function previewImage(evt) {
             }catch (error){
                 console.error("An error occurred:", error);
             }
-            webToast.Success({
-                status: `Upload completed !`,
-                message: '',
-                delay: 1000,
-                align: 'topright'
-            });
-            enableSaveChangesButton();
+            // webToast.Success({
+            //     status: `Upload completed !`,
+            //     message: '',
+            //     delay: 1000,
+            //     align: 'topright'
+            // });
+            // enableSaveChangesButton();
         }
     }
 }
@@ -243,14 +243,14 @@ async function removeImage(index) {
         console.error('Error deleting image:', error);
     }
 }
-function disableSaveChangesButton() {
-    const saveChangesButton = document.getElementById('saveChangesButton');
-    saveChangesButton.disabled = true;
-}
-function enableSaveChangesButton() {
-    const saveChangesButton = document.getElementById('saveChangesButton');
-    saveChangesButton.disabled = false;
-}
+// function disableSaveChangesButton() {
+//     const saveChangesButton = document.getElementById('saveChangesButton');
+//     saveChangesButton.disabled = true;
+// }
+// function enableSaveChangesButton() {
+//     const saveChangesButton = document.getElementById('saveChangesButton');
+//     saveChangesButton.disabled = false;
+// }
 
 
 pageProduct.loadData.getProductById = async () => {
@@ -304,8 +304,8 @@ pageProduct.commands.createProduct = () => {
     const description = pageProduct.elements.productDescriptionCre.val();
     const id = pageProduct.elements.categoryCre.val();
     const categoryName = pageProduct.elements.categoryCre.find('option:selected').text();
-    // const avatar = pageProduct.elements.avatarCre.value()
-    let avatar = document.getElementById("avatarCreated").value;
+    const avatar = pageProduct.elements.avatarCre.val()
+
 
 
     const categoryCreReqDTO = {
@@ -325,7 +325,7 @@ pageProduct.commands.createProduct = () => {
 
     pageProduct.elements.loading.removeClass('hide');
 
-    setTimeout(() => {q
+    setTimeout(() => {
         $.ajax(
             {
                 method: 'POST',

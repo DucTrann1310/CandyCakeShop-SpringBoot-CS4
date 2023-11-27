@@ -4,17 +4,16 @@ import com.cg.exception.DataInputException;
 import com.cg.model.Product;
 import com.cg.model.ProductImport;
 import com.cg.model.ProductImportDetail;
-import com.cg.model.dto.ImportProductReqDTO;
-import com.cg.model.dto.ProductImportListResDTO;
-import com.cg.model.dto.ProductImportReqDTO;
+import com.cg.model.dto.*;
 import com.cg.repository.ProductImportDetailRepository;
 import com.cg.repository.ProductImportRepository;
 import com.cg.repository.ProductRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import jakarta.transaction.Transactional;
-import java.time.LocalDateTime;
 
+import jakarta.transaction.Transactional;
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +37,7 @@ public class ProductImportServiceImpl implements IProductImportService {
 
     @Override
     public Optional<ProductImport> findById(Long id) {
-        return Optional.empty();
+        return productImportRepository.findById(id);
     }
 
 
@@ -60,18 +59,18 @@ public class ProductImportServiceImpl implements IProductImportService {
 
 
     @Override
-    public List<ProductImportListResDTO> findAllProductImportResDTO() {
+    public List<ProductImportResDTO> findAllProductImportResDTO() {
         return productImportRepository.findAllProductImportResDTO();
     }
 
     @Override
-    public void create(ImportProductReqDTO importProductReqDTO) {
+    public void create(ImportProductCreReqDTO importProductReqDTO) {
         ProductImport productImport = new ProductImport();
-        productImport.setCreatedAt(LocalDateTime.parse(importProductReqDTO.getCreatedAt()));
+        productImport.setImportDate(Date.valueOf(importProductReqDTO.getImportDate()));
 
         productImportRepository.save(productImport);
 
-        for(ProductImportReqDTO pro : importProductReqDTO.getProducts()){
+        for(ProductImportCreReqDTO pro : importProductReqDTO.getProducts()){
             ProductImportDetail productImportDetail = new ProductImportDetail();
             productImportDetail.setProductImport(productImport);
 
@@ -85,5 +84,46 @@ public class ProductImportServiceImpl implements IProductImportService {
         }
 
     }
+
+    @Override
+    public void confirm(Long productImportId) {
+        ProductImport productImport = productImportRepository.findById(productImportId).get();
+        productImport.setConfirm(true);
+
+        productImportRepository.save(productImport);
+    }
+
+    @Override
+    public ProductImportResDTO findProductImportResDTOByProductImportId(Long product_import_id) {
+        return productImportRepository.findProductImportResDTOByProductImportId(product_import_id);
+    }
+
+    @Override
+    public void cancel(Long productImportId) {
+
+        productImportDetailRepository.deleteProductImportDetailsByProductImportId(productImportId);
+
+        productImportRepository.deleteById(productImportId);
+
+
+    }
+
+    @Override
+    public List<ProductImportDetailResDTO> findProductImportDetailUpReqDTOByProductImportId(Long product_import_id) {
+        return productImportRepository.findProductImportDetailUpReqDTOByProductImportId(product_import_id);
+    }
+
+    @Override
+    public ImportProductResDTO findImportProductUpReqDTOByProductImportId(Long product_import_id) {
+        return productImportRepository.findImportProductUpReqDTOByProductImportId(product_import_id);
+    }
+
+    @Override
+    public ProductImportResDTO findProductImportResDTOByMaxId() {
+        return productImportRepository.findProductImportResDTOByMaxId();
+    }
+
+
+
 
 }

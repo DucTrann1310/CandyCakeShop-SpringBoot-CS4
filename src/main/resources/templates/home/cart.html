@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> PDB.SHOP </title>
+    <th:block th:replace="/layout/head::home"></th:block>
+    <style>
+        .card {
+            max-width: 1000px;
+            max-height: 500px /* Đảm bảo thẻ card không vượt quá kích thước của nội dung bên trong */
+        }
+
+        .card img {
+            max-width: 70%;
+            max-height: 90%; /* Đảm bảo ảnh không vượt quá kích thước của thẻ cha */
+            height: auto; /* Đảm bảo tỷ lệ hình ảnh được duy trì */
+            width: auto;
+        }
+    </style>
+    <style>
+        .card {
+            max-width: 100%;
+            max-height: 100% /* Đảm bảo thẻ card không vượt quá kích thước của nội dung bên trong */
+        }
+
+        .card img {
+            max-width: 30%;
+            max-height: 50%; /* Đảm bảo ảnh không vượt quá kích thước của thẻ cha */
+            height: auto; /* Đảm bảo tỷ lệ hình ảnh được duy trì */
+            width: auto;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        #fixedHeader {
+            position: sticky;
+            top: 0;
+            background-color: #ffffff; /* Chỉ định màu nền của thẻ */
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+<!-- MOBILE NAV -->
+        <div class="mb-nav">
+
+            <div class="mb-move-item"></div>
+            <div class="mb-nav-item active">
+                <a href="/homes">
+                    <i class="bx bxs-home"></i>
+                </a>
+            </div>
+            <div class="mb-nav-item">
+                <a href="#about">
+                    <i class='bx bxs-wink-smile'></i>
+                </a>
+            </div>
+            <div class="mb-nav-item">
+                <a href="#food-menu-section">
+                    <i class='bx bxs-food-menu'></i>
+                </a>
+            </div>
+            <div class="mb-nav-item">
+                <a href="#testimonial">
+                    <i class='bx bxs-comment-detail'></i>
+                </a>
+            </div>
+        </div>
+        <!-- END MOBILE NAV -->
+        <!-- BACK TO TOP BTN -->
+        <a href="#home" class="back-to-top">
+            <i class="bx bxs-to-top"></i>
+        </a>
+        <!-- END BACK TO TOP BTN -->
+        <!-- TOP NAVIGATION -->
+        <div class="nav">
+            <div class="menu-wrap">
+                <a href="/homes">
+                    <div class="logo">
+                        PDB Shop
+                    </div>
+                </a>
+                <div class="menu h-xs">
+                    <a href="/homes">
+                        <div class="menu-item active">
+                            Home
+                        </div>
+                    </a>
+                    <a href="/homes#food-menu-section">
+                        <div class="menu-item">
+                            Menu
+                        </div>
+                    </a>
+                    <a href="/homes#testimonial">
+                        <div class="menu-item">
+                            Testimonials
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="navbar-nav align-items-center ms-auto">
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <img class="rounded-circle me-lg-2" src="img/user.jpg" alt=""
+                                 style="width: 40px; height: 40px;">
+                            <span class="d-none d-lg-inline-flex">${user.name}</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                            <a href="/user?action=profile&id=${user.id}" class="dropdown-item">My Profile</a>
+                            <a href="/auth?action=changePassword&id=${user.id}" class="dropdown-item">Change
+                                Password</a>
+                            <a href="/auth?action=logout" class="dropdown-item">Log Out</a>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <!-- END TOP NAVIGATION -->
+        <!-- FOOD MENU SECTION -->
+        <section class="">
+            <div class="container card">
+                <div class="row">
+                    <div class="col-8" style="overflow-y: scroll; max-height: 500px;">
+                        <table class="table" >
+                            <thead class="bg-dark text-white">
+                            <tr>
+                                <th>Products</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody class="" id="cart-body">
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-4">
+                        <div class="">
+                            <h5 style="text-align: center">Cart Total</h5>
+                            <ul>
+                                <p style="text-align: center">Total>
+                                    <span>
+                                    pattern="#,###.### VNĐ"/> đ
+                                </span>
+                                </p>
+                            </ul>
+                                <form method="post" action="/cart?action=checkOut&idUser=${user.id}"
+                                      style="text-align: center">
+                                    <button class="btn btn-outline-dark">PROCEED TO CHECKOUT</button>
+                                </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+<!-- END FOOD MENU SECTION -->
+
+<th:block th:replace="/layout/head::home_script"></th:block>
+
+
+<script src="/static/assets/js/home.js"></script>
+<!--<script>
+    const message = document.getElementById('message');
+    if (message !== null && message.innerHTML) {
+        toastr.success(message.innerHTML);
+    }
+    const productID = ${productImportDetails};
+    document.getElementById('productQuantity').addEventListener('input', function () {
+        var quantity = parseInt(this.value);
+        var price = parseFloat('${product.price}'); // Assuming product.price is in float format
+
+        if (!isNaN(quantity) && !isNaN(price)) {
+            var total = quantity * price;
+            document.getElementById('totalCheckOut').textContent = 'Total: ' + total.toFixed(0) + ' đ'; // Assuming you want to display total in Vietnamese currency format
+        }
+    });
+
+    function handleQuantityChange(eQuantity, idProduct, idUser) {
+        let url = `/homes?action=update&idProduct=\${idProduct}&idUser=\${idUser}&quantity=\${eQuantity}`;
+        window.location.assign(url);
+    }
+
+    function handleDeleteCartItem(idProduct, idUser) {
+        let url = `/homes?action=delete&idProduct=\${idProduct}&idUser=\${idUser}`;
+        window.location.assign(url);
+    }
+</script>-->
+</body>
+
+</html>

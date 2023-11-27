@@ -9,6 +9,7 @@ import lombok.experimental.Accessors;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @AllArgsConstructor
@@ -22,8 +23,10 @@ public class ProductImport extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
+    @Column(name = "import_date")
+    private Date importDate;
 
     @Column(columnDefinition = "boolean default false")
     private boolean confirm;
