@@ -535,26 +535,26 @@ pageProduct.elements.frmUpdate.validate({
     onclick: false,
     onfocusout: false,
     rules: {
-        // productNameUp: {
-        //     required: true,
-        //     minlength: 5
-        // },
-        // productPriceUp: {
-        //     required: true,
-        //     digits: true,
-        //     min: 1000
-        // }
+        productNameUp: {
+            required: true,
+            minlength: 5
+        },
+        productPriceUp: {
+            required: true,
+            digits: true,
+            min: 1000
+        }
     },
     messages: {
-        // productNameUp: {
-        //     required: 'Vui lòng nhập tên sản phẩm',
-        //     minlength: 'Tên sản phẩm phải chứa ít nhất 5 kí tự'
-        // },
-        // productPriceUp: {
-        //     required: "Vui lòng nhập giá sản phẩm",
-        //     digits: "Giá sản phẩm phải là một số",
-        //     min: "Giá sản phẩm phải tối thiểu là 1000"
-        // }
+        productNameUp: {
+            required: 'Vui lòng nhập tên sản phẩm',
+            minlength: 'Tên sản phẩm phải chứa ít nhất 5 kí tự'
+        },
+        productPriceUp: {
+            required: "Vui lòng nhập giá sản phẩm",
+            digits: "Giá sản phẩm phải là một số",
+            min: "Giá sản phẩm phải tối thiểu là 1000"
+        }
     },
     errorLabelContainer: "#modalUpdate .area-error",
     errorPlacement: function (error, element) {

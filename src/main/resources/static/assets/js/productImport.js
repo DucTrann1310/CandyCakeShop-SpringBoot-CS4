@@ -451,7 +451,7 @@ pageProductImport.commands.createProductImport = () => {
 
         const productId = $('[name="productIdsCre"]').eq(i).find('option:selected').val();
 
-        const quantity = $('[name="productIdsCre"]').eq(i).parent().parent().find('[name="quantitiesCre"]').val()
+        const quantity = $('[name="productIdsCre"]  ').eq(i).parent().parent().find('[name="quantitiesCre"]').val()
 
         const product = {
             productId,
