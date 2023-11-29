@@ -9,7 +9,9 @@ import lombok.experimental.Accessors;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
+
 import java.util.List;
+
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,7 +31,7 @@ public class Product {
 
     private BigDecimal price;
 
-//    private String img;
+    //    private String img;
 
     private String description;
 

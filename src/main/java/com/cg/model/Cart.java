@@ -35,7 +35,7 @@ public class Cart {
 
     private double price;
 
-    private Date oderDate;
+//    private Date oderDate;
 
     public CartResDTO toCartResDTO() {
         return new CartResDTO()

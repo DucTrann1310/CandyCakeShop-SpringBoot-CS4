@@ -38,16 +38,16 @@ public class CartAPI {
     }
 
 
-    @GetMapping("/cart/{year}/{month}")
-    public Double getTotalCartByMonth(@PathVariable int year, @PathVariable int month) {
-        YearMonth yearMonth = YearMonth.of(year, month);
-        Date startDate = Date.from(yearMonth.atDay(1).atStartOfDay().toInstant());
-        Date endDate = Date.from(yearMonth.atEndOfMonth().atStartOfDay().toInstant());
-//        Date startDate = Date.from(yearMonth.atDay(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
-//        Date endDate = Date.from(yearMonth.atEndOfMonth().atStartOfDay(ZoneId.systemDefault()).toInstant());
-        List<Cart> carts = cartRepository.findByDate(startDate, endDate);
-        return carts.stream().mapToDouble(Cart::getPrice).sum();
-
-    }
+//    @GetMapping("/cart/{year}/{month}")
+//    public Double getTotalCartByMonth(@PathVariable int year, @PathVariable int month) {
+//        YearMonth yearMonth = YearMonth.of(year, month);
+//        Date startDate = Date.from(yearMonth.atDay(1).atStartOfDay().toInstant());
+//        Date endDate = Date.from(yearMonth.atEndOfMonth().atStartOfDay().toInstant());
+////        Date startDate = Date.from(yearMonth.atDay(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
+////        Date endDate = Date.from(yearMonth.atEndOfMonth().atStartOfDay(ZoneId.systemDefault()).toInstant());
+//        List<Cart> carts = cartRepository.findByDate(startDate, endDate);
+//        return carts.stream().mapToDouble(Cart::getPrice).sum();
+//
+//    }
 }
 
