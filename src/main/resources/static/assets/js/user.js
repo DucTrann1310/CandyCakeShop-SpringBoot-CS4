@@ -104,14 +104,14 @@ function getDataInput() {
             pattern: "^[A-Za-z ]{6,20}",
             message: "Username must have minimum is 6 characters and maximum is 20 characters",
         },
-        {
-            label: 'Password',
-            name: 'password',
-            value: userSelected.password,
-            pattern: "^[A-Za-z0-9 ]{6,20}",
-            message: "Password must have minimum is 6 characters and maximum is 20 characters",
-            required: true
-        },
+        // {
+        //     label: 'Password',
+        //     name: 'password',
+        //     value: userSelected.password,
+        //     pattern: "^[A-Za-z0-9 ]{6,20}",
+        //     message: "Password must have minimum is 6 characters and maximum is 20 characters",
+        //     required: true
+        // },
         {
             label: 'Phone',
             name: 'phone',
@@ -131,6 +131,7 @@ function getDataInput() {
         {
             label: 'Date Of birth',
             name: 'dob',
+            type:"date",
             value: userSelected.dob,
             pattern: "^\\d{4}-\\d{2}-\\d{2}$",
             message: "dob errors",
@@ -159,6 +160,7 @@ async function showEdit(id) {
     $('#staticBackdropLabel').text('Edit User');
     clearForm();
     userSelected = await findUserById(id);
+    // $('#passwordInput').val(userSelected.password);
     renderForm(formBody, getDataInput());
 }
 

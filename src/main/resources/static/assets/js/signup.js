@@ -93,6 +93,7 @@ function getDataInput() {
         {
             label: 'Password',
             name: 'password',
+            id:'passwordInput',
             value: userSelected.password,
             pattern: "^[A-Za-z0-9 ]{6,20}",
             message: "Password must have minimum is 6 characters and maximum is 20 characters",

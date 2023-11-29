@@ -3,6 +3,7 @@
 
 
 function createInput(props) {
+    console.log(props.id)
     return `<div class="form-group ${props.classContainer || ''}">
                 <label class="${props.classLabel || ''}form-label">${props.label}</label>
                 <input class="input-custom form-control ${props.classInput || ''}"
@@ -11,6 +12,7 @@ function createInput(props) {
                     ${props.pattern ? `pattern="${props.pattern}"` : ""} 
                     value="${props.value || ''}"
                     ${props.required ? 'required' : ''}
+                    id="${props.id || ''}"
                 />
                 <span class="error form-text ${props.classError}">${props.message}</span> 
             </div>`;
@@ -27,7 +29,7 @@ function createSelect(props) {
 
     })
 
-    return `<div "${props.classContainer || ''}">
+    return `<div class="form-group ${props.classContainer || ''}">
                 <label class="${props.classLabel || ''} form-label">${props.label}</label>
                 <select class="input-custom form-control ${props.classSelect || ''}" 
                 type="${props.type || 'text'}" name="${props.name}" 

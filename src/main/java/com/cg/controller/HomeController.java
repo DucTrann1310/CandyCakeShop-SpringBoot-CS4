@@ -55,6 +55,14 @@ public class HomeController {
 
         return modelAndView;
     }
+    @GetMapping("/product-imports")
+    public ModelAndView showProductImport() {
+        modelAndView.setViewName("product-import/index");
+        ModelAndView modelAndView = Login();
+        modelAndView.addObject("someKey", "someValue");
+
+        return modelAndView;
+    }
 
     public ModelAndView Login(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

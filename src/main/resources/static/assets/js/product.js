@@ -489,26 +489,26 @@ pageProduct.elements.frmCreate.validate({
     onclick: false,
     onfocusout: false,
     rules: {
-        // productNameCre: {
-        //     required: true,
-        //     minlength: 5
-        // },
-        // productPriceCre: {
-        //     required: true,
-        //     digits: true,
-        //     min: 1000
-        // }
+        productNameCre: {
+            required: true,
+            minlength: 5
+        },
+        productPriceCre: {
+            required: true,
+            digits: true,
+            min: 1000
+        }
     },
     messages: {
-        // productNameCre: {
-        //     required: 'Vui lòng nhập tên sản phẩm',
-        //     minlength: 'Tên sản phẩm phải chứa ít nhất 5 kí tự'
-        // },
-        // productPriceCre: {
-        //     required: "Vui lòng nhập giá sản phẩm",
-        //     digits: "Giá sản phẩm phải là một số",
-        //     min: "Giá sản phẩm phải tối thiểu là 1000"
-        // }
+        productNameCre: {
+            required: 'Vui lòng nhập tên sản phẩm',
+            minlength: 'Tên sản phẩm phải chứa ít nhất 5 kí tự'
+        },
+        productPriceCre: {
+            required: "Vui lòng nhập giá sản phẩm",
+            digits: "Giá sản phẩm phải là một số",
+            min: "Giá sản phẩm phải tối thiểu là 1000"
+        }
     },
     errorLabelContainer: "#modalCreate .area-error",
     errorPlacement: function (error, element) {

@@ -15,6 +15,7 @@ import com.cg.service.user.response.UserRegisterResponse;
 import com.cg.utils.AppMessage;
 import com.cg.utils.AppUtil;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -66,12 +67,15 @@ public class UserService {
         });
     }
 
+
     public void update(UserSaveRequest request, Long id){
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         var userDb = userRepository.findById(id).orElse(new User());
 
-        String encodedPassword = passwordEncoder.encode(request.getPassword());
-        userDb.setPassword(encodedPassword);
+        if (request.getPassword() != null && !request.getPassword().isEmpty()) {
+            String encodedPassword = passwordEncoder.encode(request.getPassword());
+            userDb.setPassword(encodedPassword);
+        }
         userDb.setRole(new Role());
         userDb.setGender(new Gender());
 
@@ -79,6 +83,25 @@ public class UserService {
 
         userRepository.save(userDb);
     }
+//public void update(UserSaveRequest request, Long id) {
+//    var userDb = userRepository.findById(id).orElse(new User());
+//
+//
+//
+//    // Cập nhật các thông tin khác của người dùng
+//    userDb.setRole(new Role());
+//    userDb.setGender(new Gender());
+//    AppUtil.mapper.map(request, userDb);
+//
+//    if (request.getPassword() != null && !request.getPassword().isEmpty()) {
+//        String encodedPassword = passwordEncoder.encode(request.getPassword());
+//        userDb.setPassword(encodedPassword);
+//    }
+//    // Cập nhật mật khẩu đã sửa đổi vào cơ sở dữ liệu
+//    userRepository.save(userDb);
+//}
+
+
     public Boolean delete(Long id) {
         userRepository.deleteById(id);
         return true;

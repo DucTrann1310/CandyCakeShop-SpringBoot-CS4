@@ -6,6 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
+
+import java.math.BigDecimal;
+import java.time.YearMonth;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,8 +17,28 @@ import java.util.Optional;
 @Transactional
 public class CartService implements ICartService {
 
+    private final CartRepository cartRepository;
+
     @Autowired
-    private CartRepository cartRepository;
+    public CartService(CartRepository cartRepository) {
+        this.cartRepository = cartRepository;
+    }
+
+//    public BigDecimal getTotalCartByMonth(int year, int month) {
+//        YearMonth yearMonth = YearMonth.of(year, month);
+//        Date startDate = Date.from(yearMonth.atDay(1).atStartOfDay().toInstant());
+//        Date endDate = Date.from(yearMonth.atEndOfMonth().atStartOfDay().toInstant());
+//
+//        List<Cart> carts = cartRepository.findByDate(startDate, endDate);
+//
+//        BigDecimal total = BigDecimal.ZERO;
+//        for (Cart cart : carts) {
+//            total = total.add(BigDecimal.valueOf(cart.getPrice()));
+//        }
+//
+//        return total;
+//    }
+
 
     @Override
     public List<Cart> findAll() {
@@ -39,4 +63,7 @@ public class CartService implements ICartService {
     public void deleteById(Long id) {
 
     }
+
+
+
 }

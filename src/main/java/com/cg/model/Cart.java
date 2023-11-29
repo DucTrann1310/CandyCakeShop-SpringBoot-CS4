@@ -9,6 +9,7 @@ import lombok.experimental.Accessors;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
+import java.sql.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,7 +32,10 @@ public class Cart {
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private User customer;
     private int quantity;
-    private BigDecimal price;
+
+    private double price;
+
+    private Date oderDate;
 
     public CartResDTO toCartResDTO() {
         return new CartResDTO()
@@ -39,6 +43,6 @@ public class Cart {
                 .setProduct(product.toProductResDTO())
                 .setCustomer(customer)
                 .setQuantity(quantity)
-                .setPrice(price);
+                .setPrice(BigDecimal.valueOf(price));
     }
 }
